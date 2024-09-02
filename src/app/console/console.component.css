@@ -1,0 +1,60 @@
+#grafico_total_datos {
+    height: 400px;
+    width: 400px;
+}
+
+
+.custom-indigo {
+    background-color: #6610f2;
+    color: #fff;
+}
+
+.custom-indigo-100 {
+    background-color: #e0d9fa;
+    color: #6610f2;
+}
+
+.custom-indigo-200 {
+    background-color: #c1b3f4;
+    color: #6610f2;
+}
+
+.custom-indigo-300 {
+    background-color: #a293ed;
+    color: #6610f2;
+}
+
+.custom-indigo-400 {
+    background-color: #8462e7;
+    color: #fff;
+}
+
+.custom-indigo-500 {
+    background-color: #6610f2;
+    color: #fff;
+}
+
+.custom-indigo-600 {
+    background-color: #5b0ac5;
+    color: #fff;
+}
+
+.custom-indigo-700 {
+    background-color: #4f09a6;
+    color: #fff;
+}
+
+.custom-indigo-800 {
+    background-color: #420885;
+    color: #fff;
+}
+
+.custom-indigo-900 {
+    background-color: #340664;
+    color: #fff;
+}
+
+.custom-indigo.active {
+    background-color: #2a0452;
+    color: #fff;
+}

@@ -1,0 +1,100 @@
+table>* {
+    font-size: 12px;
+    white-space: nowrap;
+}
+/* CSS */
+.table-container{
+    height: 600px;
+}
+.table-cebra {
+    border-spacing: 0;
+}
+.table-cebra thead th {
+    background-color: #333;
+    color: white;
+}
+.table-cebra tbody td {
+    background-color: white;
+    color: rgb(0, 0, 0);
+}
+.table-cebra tfoot th {
+    background-color: #333;
+    color: white;
+}
+.table-cebra th,
+.table-cebra td {
+    border: 1px solid #CCC;
+    padding: 0.5rem;
+    text-align: left;
+}
+.table-cebra .sticky {
+    position: sticky;
+    z-index: 2;
+    min-width: 80px;
+    left: 0;
+}
+.table-cebra .sticky-2 {
+    position: sticky;
+    min-width: 206px;
+    left: 80px;
+}
+.table-cebra .sticky-3 {
+    position: sticky;
+    min-width: 84px;
+    left: 286px;
+}
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+}
+.sticky-top2 {
+    position: sticky;
+    top: 28px;
+    z-index: 1;
+}
+.sticky-bottom {
+    position: sticky;
+    bottom: 0;
+}
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+}
+/* CSS */
+.card-body {
+    min-height: 500px;
+    overflow: auto;
+    padding: 0px 0px 0px 0px;
+}
+
+#TablaPlaceholder {
+    width: 98%;
+}
+
+table>tbody>tr>td {
+    padding: 1px 1px 1px 1px;
+    margin: 1px 1px 1px 1px;
+}
+
+table>thead>tr>th {
+    padding: 4px 4px 4px 4px;
+    margin: 4px 4px 4px 4px;
+}
+
+table>tfoot>tr>th {
+    padding: 4px 4px 4px 4px;
+    margin: 4px 4px 4px 4px;
+}
+
+.even-group {
+    background-color: rgb(228, 248, 255) !important;
+}
+
+.odd-group {
+    background-color: rgb(228, 255, 228) !important;
+}

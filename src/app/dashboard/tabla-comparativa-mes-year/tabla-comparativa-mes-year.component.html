@@ -1,0 +1,353 @@
+<div class="container-fluid">
+    <div class="row my-2">
+        <div class="col-12">
+            <button class="dropdown btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" id="BtnFiltros">Filtros</button>
+            <!-- <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionTypeDato">
+                <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked
+                    (click)="('SOLES')">
+                <label class="btn btn-outline-secondary" for="InpTipoDatoSoles">En Soles</label>
+                <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoPiezas" (click)="('PIEZAS')">
+                <label class="btn btn-outline-secondary" for="InpTipoDatoPiezas">En Piezas</label>
+            </div> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Comparativo -> {{YearActual}} - {{YearActual-1}} </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table-cebra table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="sticky text-center" rowspan="2">Tiendas</th>
+                                    <th *ngFor="let mes of Meses" colspan="3" class="text-center mes">{{this.core.ConvertirMesTexto(mes)}}</th>
+                                </tr>
+                                <tr>
+                                    <ng-container *ngFor="let mes of Meses">
+                                        <th class="text-center">{{YearActual-1}}</th>
+                                        <th class="text-center">{{YearActual}}</th>
+                                        <th class="text-center">Diferencia %</th>
+                                    </ng-container>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PROMART</td>
+                                    <ng-container *ngFor="let mes of Meses; index as i">
+                                        <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_anterior.promart[i].monto)}}</td>
+                                        <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_actual.promart[i].monto)}}</td>
+                                        <td class="text-end">{{ calcularDiferencia(ComparativoVentas!.year_anterior.promart[i].monto,ComparativoVentas!.year_actual.promart[i].monto) }}%</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td>SODIMAC</td>
+                                    <ng-container *ngFor="let mes of Meses; index as i">
+                                        <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_anterior.sodimac[i].monto)}}</td>
+                                        <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_actual.sodimac[i].monto)}}</td>
+                                        <td class="text-end">{{ calcularDiferencia(ComparativoVentas!.year_anterior.sodimac[i].monto,ComparativoVentas!.year_actual.sodimac[i].monto) }}%</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td>MAESTRO</td>
+                                    <ng-container *ngFor="let mes of Meses; index as i">
+                                        <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_anterior.maestro[i].monto)}}</td>
+                                        <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_actual.maestro[i].monto)}}</td>
+                                        <td class="text-end">{{ calcularDiferencia(ComparativoVentas!.year_anterior.maestro[i].monto,ComparativoVentas!.year_actual.maestro[i].monto) }}%</td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <ng-container *ngFor="let mes of Meses; index as i">
+                                        <th class="text-end">{{this.core.ComaMiles(TotalesDeVentasAnterior[i])}}</th>
+                                        <th class="text-end">{{this.core.ComaMiles(TotalesDeVentasActual[i])}}</th>
+                                        <th class="text-end">{{ calcularDiferencia(TotalesDeVentasAnterior[i],TotalesDeVentasActual[i]) }}%</th>
+                                    </ng-container>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{YearActual}}</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table-cebra table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="sticky text-center">Tiendas</th>
+                                    <th *ngFor="let mes of Meses" class="text-center mes">{{this.core.ConvertirMesTexto(mes)}}</th>
+                                </tr>
+                                <tr>
+                                    <th *ngFor="let periodo of PeriodosActual" class="text-center">
+                                        <ng-container *ngIf="periodo != 'false'; else falses">{{YearActual}} ({{periodo}})</ng-container>
+                                    </th>
+                                    <ng-template #falses>Mes incompleto</ng-template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr aria-describedby="PROMART">
+                                    <td class="sticky">PROMART</td>
+                                    <ng-container *ngFor="let tienda of ComparativoVentas?.year_actual?.promart">
+                                        <td class="text-end">{{this.core.ComaMiles(tienda.monto)}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr aria-describedby="SODIMAC">
+                                    <td class="sticky">SODIMAC</td>
+                                    <ng-container *ngFor="let tienda of ComparativoVentas?.year_actual?.sodimac">
+                                        <td class="text-end">{{this.core.ComaMiles(tienda.monto)}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr aria-describedby="MAESTRO">
+                                    <td class="sticky">MAESTRO</td>
+                                    <ng-container *ngFor="let tienda of ComparativoVentas?.year_actual?.maestro">
+                                        <td class="text-end">{{this.core.ComaMiles(tienda.monto)}}</td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="sticky text-center">Total</th>
+                                    <ng-container *ngFor="let tienda of Meses; index as i">
+                                        <th class="text-end">{{this.core.ComaMiles(funcionSuma(ComparativoVentas!.year_actual.promart[i].monto,ComparativoVentas!.year_actual.sodimac[i].monto,ComparativoVentas!.year_actual.maestro[i].monto))}}</th>
+                                    </ng-container>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">{{YearActual-1}}</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table-cebra table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="sticky text-center">Tiendas</th>
+                                    <th *ngFor="let mes of Meses" class="text-center mes">{{this.core.ConvertirMesTexto(mes)}}</th>
+                                </tr>
+                                <tr>
+                                    <th *ngFor="let periodo of PeriodosAnterior" class="text-center">{{YearActual-1}} ({{periodo}})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr aria-describedby="PROMART">
+                                    <td class="sticky">PROMART</td>
+                                    <ng-container *ngFor="let tienda of ComparativoVentas?.year_anterior?.promart">
+                                        <td class="text-end">{{this.core.ComaMiles(tienda.monto)}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr aria-describedby="SODIMAC">
+                                    <td class="sticky">SODIMAC</td>
+                                    <ng-container *ngFor="let tienda of ComparativoVentas?.year_anterior?.sodimac">
+                                        <td class="text-end">{{this.core.ComaMiles(tienda.monto)}}</td>
+                                    </ng-container>
+                                </tr>
+                                <tr aria-describedby="MAESTRO">
+                                    <td class="sticky">MAESTRO</td>
+                                    <ng-container *ngFor="let tienda of ComparativoVentas?.year_anterior?.maestro">
+                                        <td class="text-end">{{this.core.ComaMiles(tienda.monto)}}</td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="sticky text-center">Total</th>
+                                    <ng-container *ngFor="let tienda of Meses; index as i">
+                                        <th class="text-end">{{this.core.ComaMiles(funcionSuma(ComparativoVentas!.year_anterior.promart[i].monto,ComparativoVentas!.year_anterior.sodimac[i].monto,ComparativoVentas!.year_anterior.maestro[i].monto))}}</th>
+                                    </ng-container>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Filtros</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label h6">Cadenas</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" *ngFor="let cadena of FiltroCadena">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio{{cadena}}" type="checkbox" name="radioCadenas" checked (change)="onCheckBoxChangeCadenas($event, cadena)">
+                                    <label class="form-check-label" for="radio{{cadena}}">{{ this.core.FormatearNombrePropio(cadena) }}</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio4" type="checkbox" name="radioCadenas" disabled (change)="onCheckBoxChangeCadenas($event,'cassinelli')">
+                                    <label class="form-check-label" for="radio4">Cassinelli</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Categorías</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorCategorias">
+                            <div class="col-3" *ngFor="let categoria of FiltroCategoria">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{categoria}}" type="checkbox" checked
+                                        (change)="onCheckboxChangeCategorias($event, categoria)">
+                                    <label class="form-check-label" for="check{{categoria}}">{{ this.core.FormatearNombrePropio(categoria) }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Mes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorMeses">
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <label for="InptFechaInicial" class="input-group-text">Fecha Inicial</label>
+                                    <input type="month" class="form-control" name="start" (input)="onSelectChangeSemanaInicial($event)"
+                                        min="{{this.mes_inicial}}" max="{{this.mes_final}}" value="{{this.core.Year_Actual}}-{{this.MesI}}">
+                                </div>
+                            </div>
+                            <div class="col-6 me-auto">
+                                <div class="input-group mb-3 ms-auto">
+                                    <input type="month" class="form-control" name="end" (input)="onSelectChangeSemanaFinal($event)"
+                                        min="{{this.mes_inicial}}" max="{{this.mes_final}}" value="{{this.core.Year_Actual}}-{{this.MesF}}">
+                                    <label for="InptFechaInicial" class="input-group-text">Fecha Final</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Locales</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="checkLocales" type="checkbox" (change)="DeseleccionarCheckBoxLocales()">
+                                    <label class="form-check-label" for="checkLocales">Deseleccionar todos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorLocales">
+                            <div class="col-3" *ngFor="let local of FiltroLocales">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{local}}" type="checkbox" [checked]="CheckBoxLocales"
+                                        (change)="onCheckboxChangeLocales($event, local)">
+                                    <label class="form-check-label" for="check{{local}}">{{ this.core.FormatearNombrePropio(local) }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Zonas</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" *ngFor="let zona of FiltroZona">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{zona}}" type="checkbox" checked
+                                        (change)="onCheckboxChangeZonas($event, zona)">
+                                    <label class="form-check-label" for="check{{zona}}">{{ this.core.FormatearNombrePropio(zona) }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Producto</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <button class="btn btn-secondary" type="button" id="BtnRestablecerProducto" (click)="LimpiarParametroProductos()">Restablecer</button>
+                                    <input type="text" class="form-control" placeholder="Escriba para buscar..." list="datalistOptions" id="InpAgregarProductos" (keyup)="onInputKeyup($event)">
+                                    <button class="btn btn-secondary" type="button" id="BtnAgregarProducto" (click)="onInputKeyup()">Agregar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info" role="alert" id="LblAlertProductosAgregadors">Click en "Agregar" para añadir productos a buscar...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-primary" id="BtnGenerar" data-bs-dismiss="modal" (click)="cargar_semana()">Generar Tabla</button>
+            </div>
+        </div>
+    </div>
+</div>
+<datalist id="datalistOptions">
+    <option *ngFor="let unidad of DataListProductos" value="{{unidad}}">
+</datalist>

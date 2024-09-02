@@ -1,0 +1,75 @@
+.table-container {
+    overflow: auto;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+}
+.table-cebra {
+    border-top: 1px solid #CCC;
+    border-spacing: 0;
+}
+.table-cebra thead th {
+    background-color: #333;
+    color: white;
+}
+.table-cebra tfoot th {
+    background-color: #333;
+    color: white;
+}
+.table-cebra th,
+.table-cebra td {
+    border: 1px solid #CCC;
+    min-width: 167px;
+    width: 166px;
+    padding: 0.5rem;
+    text-align: left;
+}
+.table-cebra th:last-child,
+.table-cebra td:last-child {
+    border-right: 0;
+}
+.table-cebra td {
+    border-bottom: 1px solid #CCC;
+}
+.table-cebra tbody tr {
+    background-color: #FFF;
+}
+.table-cebra tbody tr:nth-child(2n) {
+    background-color: #F2F2F2;
+}
+.table-cebra .sticky {
+    position: sticky;
+    left: 0;
+}
+.table-cebra .sticky-2 {
+    position: sticky;
+    left: 168px;
+}
+.table-cebra tbody tr .sticky {
+    background-color: #FFF;
+}
+.table-cebra tbody tr:nth-child(2n) .sticky {
+    background-color: #F2F2F2;
+}
+.table-cebra tbody tr .sticky-2 {
+    background-color: #FFF;
+}
+.table-cebra tbody tr:nth-child(2n) .sticky-2 {
+    background-color: #F2F2F2;
+}
+.sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.sticky-bottom {
+    position: sticky;
+    bottom: 0;
+}
+table{
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+}

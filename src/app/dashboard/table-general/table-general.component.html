@@ -1,0 +1,116 @@
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div style="text-align: center;">Comparativo general de {{ this.year_actual }} vs {{ this.year_old }}
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(1,1fr);">
+                        <select name="slcSemanaInicial" class="form-control mt-3" type="select"
+                            style="width: 30%; font-size: 14px;" #HTML_semana_inicial>
+                            <option *ngFor="let semana of this.semanas" [value]="semana.split(' ')[1]">{{ semana }}</option>
+                        </select>
+                        <select name="slcSemanaFinal" class="form-control mt-3" type="select"
+                            style="width: 30%; font-size: 14px;" #HTML_semana_final>
+                            <option *ngFor="let semana of this.semanas" [value]="semana.split(' ')[1]">{{ semana }}</option>
+                        </select>
+                        <button class="btn mt-3"
+                            style="width: 150px; background-color: #3A3876; font-size: 14px; color: white;"
+                            (click)="CargarData(ConvertirACadena(this.year_old), ConvertirACadena(this.year_actual), HTML_semana_inicial.value, HTML_semana_final.value)">Actualizar</button>
+                        <select class="form-control mt-3 " style="width: 30%; font-size: 14px;" #seleccion
+                            (change)="CambiarTipoDato(seleccion.value)">
+                            <option value="soles">Soles</option>
+                            <option value="cantidad">Cantidad</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3" *ngFor="let total_categoria of this.tabla_total_categoria_tienda; index as i">
+        <div class="col">
+            <div class="card">
+                <div class="card-body" style="width: 100%;">
+                    <div class="table-container">
+                        <button class="btn" style="background-color: #217346; color: white; font-size: 12px; margin: 10px;" (click)="DescargarExcel(tabla_general_categorias)">Descargar Tabla</button>
+                        <table class="table-cebra"
+                            style="font-size: 12px; margin: 0 auto; margin-top: 20px; margin-bottom: 20px;"
+                            #tabla_general_categorias>
+                            <thead>
+                                <tr class="sticky-top">
+                                    <th class="sticky">
+                                        Categoria
+                                    </th>
+                                    <th class="sticky-2">Venta B2B Cadenas {{ total_categoria.year }}</th>
+                                    <ng-container>
+                                        <th *ngFor="let semana of total_categoria.semanas_cabeceras">
+                                            <div>{{ this.CORE.SimplificarSemana_columna(semana)[0] }}</div>
+                                            <div>{{ this.CORE.SimplificarSemana_columna(semana)[1] }}</div>
+                                        </th>
+                                    </ng-container>
+                                    <th>Participacion tienda</th>
+                                    <th>Participacion categoria</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let categoria of total_categoria.categorias">
+                                    <tr>
+                                        <ng-template #cambio_nombres_categoria>
+                                            <td [rowSpan]="categoria.tiendas.length + 2" class="sticky"
+                                                style="background-color: #C00000; color: white">MAQUINARIAS</td>
+                                        </ng-template>
+                                        <ng-container *ngIf="categoria.categoria != 'QEP'; else cambio_nombres_categoria">
+                                            <td [rowSpan]="categoria.tiendas.length + 2" class="sticky"
+                                                style="background-color: #C00000; color: white">{{ categoria.categoria }}
+                                            </td>
+                                        </ng-container>
+                                    <tr>
+                                    <tr *ngFor="let tienda of categoria.tiendas">
+                                        <td class="sticky-2" style="background-color: #FFF;">{{ tienda.tienda }}</td>
+                                        <ng-template #valor0>
+                                            <td>0</td>
+                                        </ng-template>
+                                        <ng-container *ngFor="let semana of tienda.semanas; index as u">
+                                            <ng-template #valor_cantidad>
+                                                <td>{{ this.CORE.ComaMiles(semana.cantidad) }}</td>
+                                            </ng-template>
+                                            <ng-container *ngIf="this.tipo_dato == 'soles'; else valor_cantidad">
+                                                <td>{{ this.CORE.ComaMiles(semana.monto) }}</td>
+                                            </ng-container>
+                                        </ng-container>
+                                        <ng-template #valor_cantidad_participacion>
+                                            <td>{{ this.CORE.Convertir2Decimales(tienda.participacion_cantidad) }} %</td>
+                                        </ng-template>
+                                        <ng-container *ngIf="this.tipo_dato == 'soles'; else valor_cantidad_participacion">
+                                            <td>{{ this.CORE.Convertir2Decimales(tienda.participacion) }} %</td>
+                                        </ng-container>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color: #C00000; color: white;">
+                                        <td class="sticky" style="background-color: #C00000; color: white;"></td>
+                                        <td style="font-weight: bolder; background-color: #C00000; color: white;" class="sticky-2">Total</td>
+                                        <ng-container *ngFor="let semana of categoria.semanas; index as o">
+                                            <ng-template #valor_cantidad_semanas>
+                                                <td>{{
+                                                    this.CORE.ComaMiles(semana.cantidad) }}
+                                                </td>
+                                            </ng-template>
+                                            <td *ngIf="this.tipo_dato == 'soles'; else valor_cantidad_semanas">
+                                                {{ this.CORE.ComaMiles(semana.monto) }}
+                                            </td>
+                                        </ng-container>
+                                        <td>100 %</td>
+                                        <ng-template #valor_cantidad_categoria_total>
+                                            <td>{{ this.CORE.Convertir2Decimales(categoria.participacion_cantidad) }} %</td>
+                                        </ng-template>
+                                        <td *ngIf="this.tipo_dato == 'soles'; else valor_cantidad_categoria_total">{{ this.CORE.Convertir2Decimales(categoria.participacion) }} %</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

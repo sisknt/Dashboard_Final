@@ -1,0 +1,343 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-4
+                    order-2 order-sm-2 order-md-2 order-lg-2 order-xl-2 order-xxl-1">
+            <ul class="nav nav-pills align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" id="html_tienda_soles"
+                        (click)="CambiarTienda('TODAS_TIENDAS', 'Soles')" (click)="CambiarLocal('TODOS_LOCALES', '')"
+                        (click)="tabla_resumen.ActualizarTabla()" (click)="tabla_detallada.ActualizarTabla()"
+                        (click)="EstablecerSemanas(html_seleccion_year)" (click)="this.core.tipo_dato='Soles'"
+                        (click)="EstablecerLocales()" (click)="this.Construir_breadcump('Soles','General')">VALOR EN SOLES</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-sm" aria-current="page" id="html_tienda_soles"
+                        (click)="CambiarTienda('PROMART', 'Soles')" (click)="tabla_resumen.ActualizarTabla()"
+                        (click)="tabla_detallada.ActualizarTabla()" (click)="EstablecerSemanas(html_seleccion_year)"
+                        (click)="this.core.tipo_dato='Soles'" (click)="EstablecerLocales()"
+                        (click)="this.Construir_breadcump('Soles','Tienda Promart')">PROMART</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-sm" aria-current="page" id="html_tienda_soles"
+                        (click)="CambiarTienda('MAESTRO', 'Soles')" (click)="tabla_resumen.ActualizarTabla()"
+                        (click)="tabla_detallada.ActualizarTabla()" (click)="EstablecerSemanas(html_seleccion_year)"
+                        (click)="this.core.tipo_dato='Soles'" (click)="EstablecerLocales()"
+                        (click)="this.Construir_breadcump('Soles','Tienda Maestro')">MAESTRO</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-sm" aria-current="page" id="html_tienda_soles"
+                        (click)="CambiarTienda('SODIMAC', 'Soles')" (click)="tabla_resumen.ActualizarTabla()"
+                        (click)="tabla_detallada.ActualizarTabla()" (click)="EstablecerSemanas(html_seleccion_year)"
+                        (click)="this.core.tipo_dato='Soles'" (click)="EstablecerLocales()"
+                        (click)="this.Construir_breadcump('Soles','Tienda Sodimac')">SODIMAC</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-4 d-flex justify-content-center
+                    order-1 order-sm-1 order-md-1 order-lg-1 order-xl-1 order-xxl-2">
+            <div class="row">
+                <div class="col d-flex align-items-center" style="color: #383874; font-size: 14px">
+                    <div class="alert alert-light" role="alert">
+                        Año actual: <strong>{{ this.core.Year_Actual }}</strong> -
+                        <span>&nbsp;Venta semanal en <span class="text-success"
+                                style="font-weight: bolder; font-size: 15px;">{{ this.core.tipo_dato.toUpperCase()
+                                }}</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-4
+                    order-3 order-sm-3 order-md-2 order-lg-2 order-xl-2 order-xxl-3">
+            <ul class="nav nav-pills justify-content-start justify-content-sm-start justify-content-md-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" id="html_tienda_cantidad"
+                        (click)="CambiarLocal('TODOS_LOCALES', '')" (click)="CambiarTienda('TODAS_TIENDAS', 'Piezas')"
+                        (click)="tabla_resumen.ActualizarTabla()" (click)="tabla_detallada.ActualizarTabla()"
+                        (click)="EstablecerSemanas(html_seleccion_year)" (click)="this.core.tipo_dato='Piezas'"
+                        (click)="EstablecerLocales()" (click)="this.Construir_breadcump('Piezas','General')">VALOR EN PIEZAS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-sm" aria-current="page" id="html_tienda_cantidad"
+                        (click)="CambiarTienda('PROMART', 'Piezas')" (click)="tabla_resumen.ActualizarTabla()"
+                        (click)="tabla_detallada.ActualizarTabla()" (click)="EstablecerSemanas(html_seleccion_year)"
+                        (click)="this.core.tipo_dato='Piezas'" (click)="EstablecerLocales()"
+                        (click)="this.Construir_breadcump('Piezas','Tienda Promart')">PROMART</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-sm" aria-current="page" id="html_tienda_cantidad"
+                        (click)="CambiarTienda('MAESTRO', 'Piezas')" (click)="tabla_resumen.ActualizarTabla()"
+                        (click)="tabla_detallada.ActualizarTabla()" (click)="EstablecerSemanas(html_seleccion_year)"
+                        (click)="this.core.tipo_dato='Piezas'" (click)="EstablecerLocales()"
+                        (click)="this.Construir_breadcump('Piezas','Tienda Maestro')">MAESTRO</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-sm" aria-current="page" id="html_tienda_cantidad"
+                        (click)="CambiarTienda('SODIMAC', 'Piezas')" (click)="tabla_resumen.ActualizarTabla()"
+                        (click)="tabla_detallada.ActualizarTabla()" (click)="EstablecerSemanas(html_seleccion_year)"
+                        (click)="this.core.tipo_dato='Piezas'" (click)="EstablecerLocales()"
+                        (click)="this.Construir_breadcump('Piezas','Tienda Sodimac')">SODIMAC</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="mb-3"></div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card widi">
+                <div class="card-body card-resumen-grafico">
+                    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                        aria-label="breadcrumb" aria-label="breadcrumb" #breadcump_principal>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" style="font-weight: bolder;">
+                                {{this.core.breadcump2.toUpperCase()}}</li>
+                            <li class="breadcrumb-item active" style="font-weight: bolder;">
+                                {{this.core.breadcump3.toUpperCase()}}</li>
+                        </ol>
+                    </nav>
+                    <div class="table-responsive">
+                        <app-table-resumen #tabla_resumen></app-table-resumen>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-4"></div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-tabla-principal">
+                <div class="card-body">
+                    <div class="row">
+                        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                            aria-label="breadcrumb" aria-label="breadcrumb" #breadcump_principal>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item active" style="font-weight: bolder;">
+                                    {{this.core.breadcump2.toUpperCase()}}</li>
+                                <li class="breadcrumb-item active" style="font-weight: bolder;">
+                                    {{this.core.breadcump3.toUpperCase()}}</li>
+                            </ol>
+                        </nav>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input type="email" style="background-color: #ffffff;"
+                                        class="form-control form-control-sm input-buscar" id="TxbBuscar"
+                                        (keyup)="EventoTecla($event,tabla_detallada)" aria-describedby="emailHelp"
+                                        placeholder="Escribe para buscar..." list="datalistOpciones">
+                                    <datalist id="datalistOpciones">
+                                        <option *ngFor="let item of this.core.ArrayDeProductosBuscar" value="{{item}}"></option>
+                                    </datalist>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-primary btn-sm" id="BtnBuscar" (click)="EventoTecla($event,tabla_detallada)">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row d-flex justify-content-end">
+                                <div class="col-auto">
+                                    <button class="btn btn-secondary btn-sm" (click)="RestablecerBusqueda()"
+                                    (click)="tabla_detallada.ActualizarTabla()">Reestablecer</button>
+                                </div>
+                                <!-- <div class="col-auto">
+                                    <button class="btn btn-secondary btn-sm" (click)="AplicarSeleccion()">Aplicar selección</button>
+                                </div> -->
+                                <div class="col-auto">
+                                    <button type="button" role="button"
+                                        class="btn btn-secondary btn-sm"
+                                        data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false"
+                                        aria-controls="collapseExample">
+                                        <span><i class="bi bi-calendar-range"></i></span>
+                                        <span class="text-nowrap">Activar Fechas</span>
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary btn-sm dropdown-toggle boton-descargar-excel"
+                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Descargar Excel
+                                            <i class="bi bi-file-earmark-fill"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" id="BtnDescargarResumen">Descargar Resumen</a></li>
+                                            <li><a class="dropdown-item" id="BtnDescargarDatos">Descargar Datos</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-secondary btn-sm d-flex boton-filtros-locales"
+                                        data-bs-toggle="modal" data-bs-target="#Modal_filtro_locales">
+                                        <span><i class="bi bi-gear-fill"></i></span>
+                                        <span class="text-nowrap">Filtros</span>
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check">
+                                        <select class="form-select" #selector
+                                        (change)="tabla_detallada.cambiar_limite_tipologia(this.core.ConvertirNumero(selector.value))"
+                                        (change)="tabla_detallada.CargarTotales()">
+                                            <option value="1">50 - 50</option>
+                                            <option value="2">80 - 20</option>
+                                            <option value="3">94 - 06</option>
+                                            <option value="4" selected>100 - 0</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <a type="button" role="button" [href]="this.core.host + '/grafico-general'"
+                                    target="_blank"
+                                    class="btn btn-secondary btn-sm d-flex boton-activar-fechas">
+                                    <span><i class="bi bi-graph-up"></i></span>
+                                    <span class="text-nowrap">Ver Gráfico</span>
+                                </a> -->
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="z-index-1" id="allCategories">
+                        <button class="btn btn-secondary btn-sm" *ngFor="let categoria of this.categorias_empresa"
+                            (click)="CambiarCategoria(categoria, tabla_detallada)"
+                            [ngClass]="{'active': this.core.botonActivoDecor == categoria}">
+                            <ng-container *ngIf="categoria === 'QEP'; else otherContent">MAQUINARIA</ng-container>
+                            <ng-template #otherContent>{{ categoria }}</ng-template>
+                        </button>
+                        <button class="btn btn-secondary btn-sm"
+                            (click)="CambiarCategoria('TODO_CATEGORIAS', tabla_detallada)"
+                            [ngClass]="{'active': this.core.botonActivoDecor == 'TODO_CATEGORIAS'}">
+                            Todas las categorias
+                        </button>
+                    </div>
+
+                    <div class="table-responsive table-principal">
+                        <app-table #tabla_detallada></app-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal FILTROS-->
+<div class="modal fade" id="Modal_filtro_locales" tabindex="-1" aria-labelledby="Modal_filtro_localesLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-header">Filtros</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                #html_seleccion_year (change)="EstablecerSemanas(html_seleccion_year)"
+                                (change)="EstablecerLocales()">
+                                <ng-container *ngFor="let year of years">
+                                    <ng-template #valor_no_actual>
+                                        <option [value]="year"> {{ year }} </option>
+                                    </ng-template>
+                                    <ng-container *ngIf="year == this.core.Year_Actual; else valor_no_actual">
+                                        <option [value]="year" selected> {{ year }} </option>
+                                    </ng-container>
+                                </ng-container>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div class="div">
+                            <label class="form-check-label" for="varlocal">
+                                Desde
+                            </label>
+                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" #html_semana_inicial
+                                (change)="CambiarSemanaRangos(html_semana_inicial, html_semana_final)">
+                                <option *ngFor="let semana of this.core.DT_Semanas" [value]="semana.split(' ')[1]">{{ semana }}</option>
+                            </select>
+                        </div>
+                        <div class="div ms-auto">
+                            <label class="form-check-label" for="varlocal">
+                                Hasta
+                            </label>
+                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example"
+                                #html_semana_final
+                                (change)="CambiarSemanaRangos(html_semana_inicial, html_semana_final)">
+                                <option *ngFor="let semana of this.core.DT_Semanas" [value]="semana.split(' ')[1]">{{
+                                    semana }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>Categorias</h3>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div *ngFor="let categoria of this.categorias_empresa" class="col-4 form-check" style="font-size: 13px;">
+                                        <input class="form-check-input" type="checkbox" name="exampleRadios" id="html_categorias"
+                                            [value]="categoria" checked>
+                                        <label class="form-check-label">
+                                            <ng-container *ngIf="categoria === 'QEP'; else catContent">
+                                                MAQUINARIA Y HERRAMIENTA
+                                            </ng-container>
+                                            <ng-template #catContent>{{ categoria }}</ng-template>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div>
+                            <button class="btn" id="BtnSeleccion" style="background-color: #0D6EFD; color: white;">Desmarcar todo</button>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div class="col">
+                            <h3>Locales</h3>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="container">
+                        <div class="row">
+                            <ng-container>
+                                <div *ngFor="let local of this.core.locales_actuales" class="col-4 form-check">
+                                    <input class="form-check-input" type="checkbox" name="exampleRadios"
+                                        id="html_locales" [value]="local.codigo_local" checked
+                                        (click)="CambiarLocal(local.codigo_local, local.ubicacion)">
+                                    <label class="form-check-label" [for]="local.codigo_local" class="locales" style="font-size: 11px;">
+                                        {{ local.codigo_local }} - <span style="text-transform: uppercase;">{{ local.ubicacion }}</span>
+                                    </label>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button
+                        class="btn btn-sm ms-auto d-flex boton-activar-filtros d-flex justify-content-center align-items-center"
+                        data-bs-dismiss="modal" (click)="CambiarCategorias()" (click)="VerificarLocales()" (click)="tabla_detallada.ActualizarTabla()"
+                        (click)="tabla_resumen.ActualizarTabla()" (click)="CambiarYear(html_seleccion_year)" (click)="this.activarBotonUltimaCategoria()">
+                        <span class="text-nowrap">Guardar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal iframe embebido -->
+<div class="modal modal-embebido fade" id="Modal_embebido_grafico" tabindex="-1"
+    aria-labelledby="Modal_embebido_graficoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-embebido modal-dialog-centered">
+        <div class="modal-content modal-content-embebido">
+            <div class="modal-body modal-body-embebido">
+                <iframe id="fancybox-frame" name="fancybox-frame1672844424684" style="border:0;margin:0;overflow:hidden"
+                    src="https://dashboard.ceramicaskantu.com/grafico-general" allow="autoplay; encrypted-media"
+                    tabindex="999" width="100%" height="100%">
+                </iframe>
+                <button type="button" class="btn-close btn-cerrar-modal btn-cerrar-modal-embebido"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>

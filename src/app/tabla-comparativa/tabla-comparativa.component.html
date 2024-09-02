@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <div class="row mt-3" style="font-size: 12px;">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div style="text-align: center;">Seleccion de semana</div>
+                    <div>
+                        <select name="slcSemanaFinal" class="form-control mt-3" type="select" style="width: 50%; margin: 0 auto; font-size: 14px;" 
+                        (change)="GenerarCalculo('1', HTML_semana_final.value)" #HTML_semana_final>
+                            <option *ngFor="let semana of this.semanas" [value]="semana.split(' ')[1]">{{ semana }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3" style="font-size: 12px;">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <ng-container>
+                        <table class="table">
+                            <thead>
+                                <tr style="background-color: #3A3876; color: white;">
+                                    <th>Tiendas</th>
+                                    <th>
+                                        Ventas {{ this.diferencias.ventas[0].year }} <br>
+                                        {{ this.CORE.SimplificarSemanas(this.diferencias.ventas[0].semana_inicial, this.diferencias.ventas[0].semana_final) }} <br>
+                                        {{ this.CORE.SimplificarFechas(this.diferencias.ventas[0].semana_inicial, this.diferencias.ventas[0].semana_final) }}
+                                    </th>
+                                    <th>
+                                        Ventas {{ this.diferencias.ventas[1].year }} <br>
+                                        {{ this.CORE.SimplificarSemanas(this.diferencias.ventas[1].semana_inicial, this.diferencias.ventas[1].semana_final) }} <br>
+                                        {{ this.CORE.SimplificarFechas(this.diferencias.ventas[1].semana_inicial, this.diferencias.ventas[1].semana_final) }}
+                                    </th>
+                                    <th>Diferencia {{ this.diferencias.ventas[0].year }}/{{ this.diferencias.ventas[1].year }}</th>
+                                    <th>Diferencia {{ this.diferencias.ventas[0].year }}/{{ this.diferencias.ventas[1].year }} %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let cadena of this.diferencias.ventas[0].cadenas; index as i">
+                                    <td *ngIf="cadena.cadena == 'MAESTRO'" style="background-color: #B5414D; color: white;">{{ cadena.cadena }}</td>
+                                    <td *ngIf="cadena.cadena == 'PROMART'" style="background-color: #F5BC94;">{{ cadena.cadena }}</td>
+                                    <td *ngIf="cadena.cadena == 'SODIMAC'" style="background-color: #8FB5E1;">{{ cadena.cadena }}</td>
+                                    <td>{{ this.CORE.ComaMiles(cadena.monto) }}</td>
+                                    <ng-container *ngFor="let cadena_anterior of this.diferencias.ventas[1].cadenas">
+                                        <td *ngIf="cadena.cadena == cadena_anterior.cadena">{{ this.CORE.ComaMiles(cadena_anterior.monto) }}</td>
+                                    </ng-container>
+                                    <ng-container *ngFor="let dif of this.diferencias.diferencia_tienda">
+                                        <td *ngIf="cadena.cadena == dif.cadena">{{ this.CORE.ComaMiles(dif.diferencia_cantidad) }}</td>
+                                        <td *ngIf="cadena.cadena == dif.cadena">{{ this.CORE.Convertir2Decimales(dif.diferencia_procentual) }} %</td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: #3A3876; color: white;">
+                                    <th>TOTAL</th>
+                                    <th>{{ this.CORE.ComaMiles(this.diferencias.ventas[0].monto) }}</th>
+                                    <th>{{ this.CORE.ComaMiles(this.diferencias.ventas[1].monto) }}</th>
+                                    <th>{{ this.CORE.ComaMiles(this.diferencias.ventas[0].monto -  this.diferencias.ventas[1].monto) }}</th>
+                                    <th>{{ this.CORE.Convertir2Decimales(this.diferencias.diferencia_semanal) }} %</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

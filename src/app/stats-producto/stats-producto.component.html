@@ -1,0 +1,181 @@
+<div class="contenedor">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex">
+                <h2 class="titulo-main">Estadística de Productos</h2>
+                <button class="btn btn-primary btn-sm boton-primario ms-auto" type="button" data-bs-toggle="modal"
+                    data-bs-target="#HTML_modal_buscar_producto">Seleccionar
+                    Producto</button>
+                <div class="ms-3"></div>
+                <div class="mini-card-sku d-flex justify-content-center align-items-center">
+                    <h4 class="m-auto">111983</h4>
+                </div>
+                <div class="ms-3"></div>
+                <div class="mini-card-producto d-flex justify-content-center align-items-center">
+                    <h5 class="m-auto">DECOR BORDE CUADRADO 10MM ALUMINIO BRILLANTE</h5>
+                </div>
+                <div class="ms-3"></div>
+                <button class="btn btn-primary btn-sm boton-primario" type="button">Filtros</button>
+                <div class="ms-3"></div>
+                <button class="btn btn-primary btn-sm boton-primario" type="button"
+                    (click)="actualizar_grafico()">Actualizar</button>
+                <div class="ms-3"></div>
+                <button class="btn btn-primary btn-sm boton-primario" type="button"
+                    id="HTML_btn_mostrar_ocultar_coordenada" (click)="mostrar_ocultar_xaxis()">Mostrar
+                    Coordenadas</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="contenedor-grafico-stat-producto">
+                <div id="grafico_estadistica_producto_anual"></div>
+                <div class="ocultar-mostrar-xaxis" id="HTML_mostrar_xaxis"></div>
+                <div class="ocultar-mostrar-yaxis" id="HTML_mostrar_yaxis"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3 class="titulo-secondary">Cifras generales</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="title-resumen">Resumen Retail</h4>
+                    <div class="mb-4"></div>
+                    <div class="row contenedor-cifras-generales">
+                        <div class="col">
+                            <h5>Tienda</h5>
+                            <div class="d-grid">
+                                <div class="d-flex justify-content-start align-items-center mb-2">
+                                    <div class="circle cas"></div>
+                                    <div class="me-2"></div>
+                                    <span>Tienda 1</span>
+                                </div>
+                                <div class="d-flex justify-content-start align-items-center mb-2">
+                                    <div class="circle sod"></div>
+                                    <div class="me-2"></div>
+                                    <span>Tienda 2</span>
+                                </div>
+                                <div class="d-flex justify-content-start align-items-center mb-2">
+                                    <div class="circle mas"></div>
+                                    <div class="me-2"></div>
+                                    <span>Tienda 3</span>
+                                </div>
+                                <div class="d-flex justify-content-start align-items-center mb-2">
+                                    <div class="circle prom"></div>
+                                    <div class="me-2"></div>
+                                    <span>Tienda 4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h5>Total soles</h5>
+                            <div class="d-grid">
+                                <div class="d-flex mb-2">
+                                    <span>Soles 1</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Soles 2</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Soles 3</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Soles 4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h5>Total piezas</h5>
+                            <div class="d-grid">
+                                <div class="d-flex mb-2">
+                                    <span>Piezas 1</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Piezas 2</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Piezas 3</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Piezas 4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h5>Progreso</h5>
+                            <div class="contenedor-grafico-progreso-producto">
+                                <div id="grafic_resumen_producto_anual"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h5>Porcentaje</h5>
+                            <div class="d-grid">
+                                <div class="d-flex mb-2">
+                                    <span>Porcentaje 1 %</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Porcentaje 2 %</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Porcentaje 3 %</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    <span>Porcentaje 4 %</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="HTML_modal_buscar_producto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex ms-auto">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

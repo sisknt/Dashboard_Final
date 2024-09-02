@@ -1,0 +1,301 @@
+<div class="container-fluid">
+    <div class="row my-2">
+        <div class="col-12">
+            <button class="dropdown btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" id="BtnFiltros">Filtros</button>
+            <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionTypeDato">
+                <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked
+                    (click)="this.TipoDato = 'SOLES'">
+                <label class="btn btn-outline-secondary" for="InpTipoDatoSoles">En Soles</label>
+                <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoPiezas" (click)="this.TipoDato = 'PIEZAS'">
+                <label class="btn btn-outline-secondary" for="InpTipoDatoPiezas">En Piezas</label>
+            </div>
+        </div>
+    </div>
+    <div class="row" aria-labelledby="promart">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Tabla de datos</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table class="table-bordered table-cebra d-none" id="TablaPrincipal">
+                            <thead>
+                                <tr class="sticky-top">
+                                    <th class="sticky" rowspan="2" scope="col">Codigo local</th>
+                                    <th class="sticky-2" rowspan="2" scope="col">Tiendas</th>
+                                    <th class="sticky-3" rowspan="2" scope="col">Zona</th>
+                                    <ng-container *ngFor="let periodo of DSemanas">
+                                        <th colspan="3" class="text-center">{{periodo}}</th>
+                                    </ng-container>
+                                </tr>
+                                <tr class="sticky-top2">
+                                    <ng-container *ngFor="let periodo of DSemanas">
+                                        <th>Año {{YearActual - 1}}</th>
+                                        <th>Año {{YearActual}}</th>
+                                        <th>Diferencia</th>
+                                    </ng-container>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let local of JLocales; index as i">
+                                    <tr>
+                                        <td class="sticky">{{local.codigo_local}}</td>
+                                        <td class="sticky-2">{{local.local_tienda}}</td>
+                                        <td class="sticky-3">{{local.zona}}</td>
+                                        <ng-container *ngFor="let semana of DSemanas; let j=index" [ngClass]="">
+                                            <ng-container *ngIf="this.TipoDato === 'SOLES'; else piezas">
+                                                <td class="text-end" [ngClass]="getClass(j)">{{this.core.ComaMiles(redondearAbajo(local.ventas_anterior[j].monto))}}</td>
+                                                <td class="text-end" [ngClass]="getClass(j)">{{this.core.ComaMiles(redondearAbajo(local.ventas_actual[j].monto))}}</td>
+                                                <td class="text-end" [ngClass]="getClass(j)">{{calcularDiferencia(local.ventas_anterior[j].monto,local.ventas_actual[j].monto)}}%</td>
+                                            </ng-container>
+                                            <ng-template #piezas>
+                                                <td class="text-end" [ngClass]="getClass(j)">{{this.core.ComaMiles(redondearAbajo(local.ventas_anterior[j].cantidad))}}</td>
+                                                <td class="text-end" [ngClass]="getClass(j)">{{this.core.ComaMiles(redondearAbajo(local.ventas_actual[j].cantidad))}}</td>
+                                                <td class="text-end" [ngClass]="getClass(j)">{{calcularDiferencia(local.ventas_anterior[j].cantidad,local.ventas_actual[j].cantidad)}}%</td>
+                                            </ng-template>
+                                        </ng-container>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <tfoot>
+                                <tr class="text-end sticky-bottom">
+                                    <th class="sticky" colspan="3">Total semanal</th>
+                                    <ng-container *ngFor="let total of JTotalesVentasPromart">
+                                        <th class="text-end">{{this.core.ComaMiles(total.anterior)}}</th>
+                                        <th class="text-end">{{this.core.ComaMiles(total.actual)}}</th>
+                                        <th class="text-end">{{total.diferencia}}%</th>
+                                    </ng-container>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <table class="table-cebra table-bordered position-absolute" style="top: 49px" id="TablaPlaceholder">
+                            <thead>
+                                <tr>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                                <tr>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                    <td><p class="placeholder-glow"><span class="placeholder col-12"></span></p></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                    <th><p class="placeholder-glow"><span class="placeholder col-12"></span></p></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Filtros</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label h6">Cadenas</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" *ngFor="let cadena of FiltroCadena">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio{{cadena}}" type="checkbox" name="radioCadenas" checked (change)="onCheckBoxChangeCadenas($event, cadena)">
+                                    <label class="form-check-label" for="radio{{cadena}}">{{ this.core.FormatearNombrePropio(cadena) }}</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio4" type="checkbox" name="radioCadenas" disabled (change)="onCheckBoxChangeCadenas($event,'cassinelli')">
+                                    <label class="form-check-label" for="radio4">Cassinelli</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Semanas</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorSemanas">
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <label for="InptFechaInicial" class="input-group-text">Fecha Inicial</label>
+                                    <select class="form-select form-select-sm" id="InptFechaInicial" (change)="onSelectChangeSemanaInicial($event)">
+                                        <option *ngFor="let semana of FiltroSemanas" value="{{semana}}">{{semana}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <select class="form-select form-select-sm" id="InptFechaInicial" (change)="onSelectChangeSemanaFinal($event)">
+                                        <option *ngFor="let semana of FiltroSemanas" value="{{semana}}">{{semana}}</option>
+                                    </select>
+                                    <label for="InptFechaInicial" class="input-group-text">Fecha Final</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Categorías</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorCategorias">
+                            <div class="col-3" *ngFor="let url of urlCategoria">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{url}}" type="checkbox" checked>
+                                    <label class="form-check-label" for="check{{url}}">{{url}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Productos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <button class="btn btn-secondary" type="button" id="BtnRestablecerProducto" (click)="LimpiarParametroProductos()">Restablecer</button>
+                                    <input type="text" class="form-control" placeholder="Escriba para buscar..." [(ngModel)]="selectedOption" list="MyDATA" [id]="InpAgregarProductos" (keyup)="onInputKeyup($event)">
+                                    <button class="btn btn-secondary" type="button" id="BtnAgregarProducto" (click)="onInputKeyup()">Agregar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info" role="alert" id="LblAlertProductosAgregadors">Click en "Agregar" para añadir productos a buscar...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-primary" id="BtnGenerar" data-bs-dismiss="modal" (click)="CargarDatos()">Generar Tabla</button>
+            </div>
+        </div>
+    </div>
+</div>
+<datalist id="MyDATA">
+    <option *ngFor="let unidad of DataListProductos" [value]="unidad"></option>
+</datalist>

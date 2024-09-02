@@ -1,0 +1,154 @@
+<div class="container-fluid">
+    <div class="row my-3">
+        <div class="col-12">
+            <button class="dropdown btn btn-sm btn-secondary dropdown-toggle"
+                data-bs-toggle="modal" data-bs-target="#ModalFiltros" id="BtnFiltros">Filtros</button>
+            <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionStacked">
+                <input class="btn-check" id="btnradio1" type="radio" name="radioType" checked>
+                <label class="btn btn-outline-secondary" for="btnradio1">Normal</label>
+                <input class="btn-check" id="btnradio2" type="radio" name="radioType">
+                <label class="btn btn-outline-secondary" for="btnradio2">100%</label>
+            </div>
+            <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionType">
+                <input class="btn-check" id="btnradio5" type="radio" name="radioTypeGrafico"checked>
+                <label class="btn btn-outline-secondary" for="btnradio5">Barra</label>
+                <input class="btn-check" id="btnradio4" type="radio" name="radioTypeGrafico">
+                <label class="btn btn-outline-secondary" for="btnradio4">Línea</label>
+                <input class="btn-check" id="btnradio3" type="radio" name="radioTypeGrafico">
+                <label class="btn btn-outline-secondary" for="btnradio3">Área</label>
+            </div>
+            <div class="btn-group btn-group-sm" id="GraficsRadioConfiguracionTypeDato">
+                <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked>
+                <label class="btn btn-outline-secondary" for="InpTipoDatoSoles">En Soles</label>
+                <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoPiezas">
+                <label class="btn btn-outline-secondary" for="InpTipoDatoPiezas">En Piezas</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-grafico my-5">
+    <div id="wrap">
+        <div id="chart-year">
+            <apx-chart #chart1
+                [series]="chartOptions.series!"
+                [chart]="chartOptions.chart!"
+                [dataLabels]="chartOptions.dataLabels!"
+                [plotOptions]="chartOptions.plotOptions!"
+                [yaxis]="chartOptions.yaxis!"
+                [xaxis]="chartOptions.xaxis!"
+                [subtitle]="chartOptions.subtitle!"
+                [colors]="chartOptions.colors!"
+                [states]="chartOptions.states!"
+                [title]="chartOptions.title!"
+                [tooltip]="chartOptions.tooltip!"
+            ></apx-chart>
+        </div>
+        <div id="chart-quarter">
+            <apx-chart #chart2
+                [series]="chartQuarterOptions.series!"
+                [chart]="chartQuarterOptions.chart!"
+                [legend]="chartQuarterOptions.legend!"
+                [plotOptions]="chartQuarterOptions.plotOptions!"
+                [yaxis]="chartQuarterOptions.yaxis!"
+                [xaxis]="chartQuarterOptions.xaxis!"
+                [grid]="chartQuarterOptions.grid!"
+                [title]="chartQuarterOptions.title!"
+            ></apx-chart>
+        </div>
+    </div>
+</div>
+  
+<!-- Modal -->
+<div class="modal fade" id="ModalFiltros" tabindex="-1" aria-labelledby="ModalFiltrosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalFiltrosLabel">Filtros</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Años</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto">
+                                <select class="form-select form-selec-sm" id="InpYear" (change)="onSelectChangeYears($event)">
+                                    <option *ngFor="let year of FiltroYears" value="{{year}}">{{year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Semanas</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorSemanas">
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <label for="InptFechaInicial" class="input-group-text">Fecha Inicial</label>
+                                    <select class="form-select form-select-sm" id="InptFechaInicial" (change)="onSelectChangeSemanaInicial($event)">
+                                        <option value="{{semana}}" *ngFor="let semana of FiltroSemanas">{{semana}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-3">
+                                    <select class="form-select form-select-sm" id="InptFechaInicial" (change)="onSelectChangeSemanaFinal($event)">
+                                        <option *ngFor="let semana of FiltroSemanas" value="{{semana}}">{{semana}}</option>
+                                    </select>
+                                    <label for="InptFechaInicial" class="input-group-text">Fecha Final</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Locales</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="checkLocales" type="checkbox" (change)="DeseleccionarCheckBoxLocales()">
+                                    <label class="form-check-label" for="checkLocales">Deseleccionar todos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorLocales">
+                            <div class="col-3" *ngFor="let local of FiltroLocal">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{local}}" type="checkbox" [checked]="CheckBoxLocales"
+                                        (change)="onCheckboxChangeLocales($event, local)">
+                                    <label class="form-check-label" for="check{{local}}">{{local}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-primary" id="BtnGenerar" data-bs-dismiss="modal"
+                    (click)="GenerarPeticionApi()">Generar Gráfico</button>
+            </div>
+        </div>
+    </div>
+</div>

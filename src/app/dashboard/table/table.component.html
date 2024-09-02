@@ -1,0 +1,187 @@
+<ng-template #valor_nulo>
+    <div style="color: red;">
+        0
+    </div>
+</ng-template>
+<table class="table-bordered table-cebra" id="tabla_detallada">
+    <thead class="topsticky">
+        <tr class="sticky-top">
+            <th class="sticky-1">N°</th>
+            <th class="sticky-2">sku</th>
+            <th class="sticky-3">Descripción</th>
+            <th class="sticky-4">Estado</th>
+            <th class="sticky-5">Cadena</th>
+            <th class="sticky-6">Medida</th>
+            <th class="sticky-7" *ngIf="this.CORE.tipo_dato == 'Soles'">Precio</th>
+            <th class="" *ngFor="let semana of this.DT_Semanas">
+                <div class="text-center">
+                        {{semana[0]}}{{semana[1]}}{{semana[2]}}{{semana[3]}}{{semana[4]}}{{semana[5]}}{{semana[6]}}    
+                </div>
+                <div class="text-center" *ngIf="semana[7] == '('; else fecha_1">
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[8]}}{{semana[9]}}{{semana[10]}}{{semana[11]}}{{semana[12]}}{{semana[13]}}{{semana[14]}}{{semana[15]}}{{semana[16]}}{{semana[17]}}{{semana[18]}}
+                    </p>
+                </div>
+                <ng-template #fecha_1>
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[8+1]}}{{semana[9+1]}}{{semana[10+1]}}{{semana[11+1]}}{{semana[12+1]}}{{semana[13+1]}}{{semana[14+1]}}{{semana[15+1]}}{{semana[16+1]}}{{semana[17+1]}}{{semana[18+1]}}
+                    </p>
+                </ng-template>
+                <div class="text-center" *ngIf="semana[32] == ')'; else fecha_2">
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[22]}}{{semana[23]}}{{semana[24]}}{{semana[25]}}{{semana[26]}}{{semana[27]}}{{semana[28]}}{{semana[29]}}{{semana[30]}}{{semana[31]}}
+                    </p>
+                </div>
+                <ng-template #fecha_2>
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[22+1]}}{{semana[23+1]}}{{semana[24+1]}}{{semana[25+1]}}{{semana[26+1]}}{{semana[27+1]}}{{semana[28+1]}}{{semana[29+1]}}{{semana[30+1]}}{{semana[31+1]}}
+                    </p>
+                </ng-template>
+            </th>
+            <th class="text-end" (click)="OrdenarTotal()">Total</th>
+            <th class="">Promedio</th>
+            <th class="">Participacion</th>
+            <th class="">Participacion Acumulada</th>
+            <th class="">Tipologia</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let venta of this.Productos; index as i">
+            <ng-template #tabla_busqueda>
+                <ng-container *ngIf="this.sku_seleccionados.includes(venta.sku)">
+                    <ng-container *ngIf="venta.GetTotal(this.CORE.tipo_dato) != 0">
+                        <div>DEBUG</div>
+                        <tr *ngIf="this.ConvertirNumero(venta.tipologia.split(' ')[1]) <= this.estado_tipologia" id="fila" class="fila" #fila (click)="Seleccionar(fila)">
+                            <td aria-label="N°" class="sticky-1">{{ i+1 }}</td>
+                            <td aria-label="sku" class="sticky-2">{{ venta.sku }}</td>
+                            <td aria-label="Descripción" class="sticky-3">{{ venta.nombre }}</td>
+                            <td aria-label="Estado" class="sticky-4">{{ venta.estado.toUpperCase() }}</td>
+                            <td aria-label="Cadena" class="sticky-5">{{ this.CORE.Tienda_Actual }}</td>
+                            <td aria-label="Medida" class="sticky-6">{{ this.CORE.tipo_dato }}</td>
+                            <td aria-label="Precio" *ngIf="this.CORE.tipo_dato == 'Soles'" class="sticky-7">S/. {{ venta.precio }}</td>
+                            <td class="tbody-td text-end" *ngFor="let celda of ObtenerFila(venta.ventas)">
+                                <div *ngIf="celda != 0; else valor_nulo">
+                                    {{ this.CORE.ComaMiles(celda) }}
+                                </div>
+                            </td>
+                            <td class="tbody-td text-end">{{ this.CORE.ComaMiles(venta.GetTotal(this.CORE.tipo_dato)) }}</td>
+                            <td class="tbody-td text-end">{{ this.CORE.ComaMiles(venta.GetPromedio(this.CORE.tipo_dato)) }}</td>
+                            <td class="tbody-td text-end">{{ this.CORE.Convertir2Decimales(venta.GetParticipacion(this.total_general,this.CORE.tipo_dato)) }} %</td>
+                            <td class="tbody-td text-end">{{ venta.participacion_acumulada }} %</td>
+                            <td *ngIf="venta.tipologia == 'TIPOLOGIA 1'" class="tbody-td" class="tip1 tip">
+                                {{ venta.tipologia }}
+                            </td>
+                            <td *ngIf="venta.tipologia == 'TIPOLOGIA 2'" class="tbody-td" class="tip2 tip">
+                                {{ venta.tipologia }}
+                            </td>
+                            <td *ngIf="venta.tipologia == 'TIPOLOGIA 3'" class="tbody-td" class="tip3 tip">
+                                {{ venta.tipologia }}
+                            </td>
+                            <td *ngIf="venta.tipologia == 'TIPOLOGIA 4'" class="tbody-td" class="tip4 tip">
+                                {{ venta.tipologia }}
+                            </td>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+            </ng-template>
+            <ng-container *ngIf="this.sku_seleccionados.length == 0; else tabla_busqueda">
+                <ng-container *ngIf="venta.GetTotal(this.CORE.tipo_dato) != 0">
+                    <tr *ngIf="this.ConvertirNumero(venta.tipologia.split(' ')[1]) <= this.estado_tipologia" id="fila" class="fila" #fila (click)="Seleccionar(fila)">
+                        <td aria-label="N°" class="sticky-1">{{ i+1 }}</td>
+                        <td aria-label="sku" class="sticky-2">{{ venta.sku }}</td>
+                        <td aria-label="Descripción" class="sticky-3">{{ venta.nombre }}</td>
+                        <td aria-label="Estado" class="sticky-4">{{ venta.estado.toUpperCase() }}</td>
+                        <td aria-label="Cadena" class="sticky-5">{{ this.CORE.Tienda_Actual }}</td>
+                        <td aria-label="Medida" class="sticky-6">{{ this.CORE.tipo_dato }}</td>
+                        <td aria-label="Precio" *ngIf="this.CORE.tipo_dato == 'Soles'" class="sticky-7">S/. {{ venta.precio }}</td>
+                        <td class="tbody-td text-end" *ngFor="let celda of ObtenerFila(venta.ventas)">
+                            <div *ngIf="celda != 0; else valor_nulo">
+                                {{ this.CORE.ComaMiles(celda) }}
+                            </div>
+                        </td>
+                        <td class="tbody-td text-end">{{ this.CORE.ComaMiles(venta.GetTotal(this.CORE.tipo_dato)) }}</td>
+                        <td class="tbody-td text-end">{{ this.CORE.ComaMiles(venta.GetPromedio(this.CORE.tipo_dato)) }}</td>
+                        <td class="tbody-td text-end">{{ this.CORE.Convertir2Decimales(venta.GetParticipacion(this.total_general,this.CORE.tipo_dato)) }} %</td>
+                        <td class="tbody-td text-end">{{ venta.participacion_acumulada }} %</td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 1'" class="tbody-td" class="tip1 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 2'" class="tbody-td" class="tip2 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 3'" class="tbody-td" class="tip3 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 4'" class="tbody-td" class="tip4 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+            <!-- <ng-container *ngIf="this.CORE.busqueda_actual == 'TODOS_PRODUCTOS'; else tabla_filtrada">
+                <ng-container *ngIf="venta.GetTotal(this.CORE.tipo_dato) != 0">
+                    <tr *ngIf="this.ConvertirNumero(venta.tipologia.split(' ')[1]) <= this.estado_tipologia" id="fila" class="fila" #fila (click)="Seleccionar(fila)">
+                        <td aria-label="N°" class="sticky-1">{{ i+1 }}</td>
+                        <td aria-label="sku" class="sticky-2">{{ venta.sku }}</td>
+                        <td aria-label="Descripción" class="sticky-3">{{ venta.nombre }}</td>
+                        <td aria-label="Estado" class="sticky-4">{{ venta.estado.toUpperCase() }}</td>
+                        <td aria-label="Cadena" class="sticky-5">{{ this.CORE.Tienda_Actual }}</td>
+                        <td aria-label="Medida" class="sticky-6">{{ this.CORE.tipo_dato }}</td>
+                        <td aria-label="Precio" *ngIf="this.CORE.tipo_dato == 'Soles'" class="sticky-7">S/. {{ venta.precio }}</td>
+                        <td class="tbody-td text-end" *ngFor="let celda of ObtenerFila(venta.ventas)">
+                            <div *ngIf="celda != 0; else valor_nulo">
+                                {{ this.CORE.ComaMiles(celda) }}
+                            </div>
+                        </td>
+                        <td class="tbody-td text-end">{{ this.CORE.ComaMiles(venta.GetTotal(this.CORE.tipo_dato)) }}</td>
+                        <td class="tbody-td text-end">{{ this.CORE.ComaMiles(venta.GetPromedio(this.CORE.tipo_dato)) }}</td>
+                        <td class="tbody-td text-end">{{ this.CORE.Convertir2Decimales(venta.GetParticipacion(this.total_general,this.CORE.tipo_dato)) }} %</td>
+                        <td class="tbody-td text-end">{{ venta.participacion_acumulada }} %</td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 1'" class="tbody-td" class="tip1 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 2'" class="tbody-td" class="tip2 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 3'" class="tbody-td" class="tip3 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                        <td *ngIf="venta.tipologia == 'TIPOLOGIA 4'" class="tbody-td" class="tip4 tip">
+                            {{ venta.tipologia }}
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container> -->
+        </ng-container>
+    </tbody>
+    <tfoot class="bottomsticky">
+        <tr class="sticky-bottom">
+            <ng-template #con_precio_footer>
+                <th class="sticky-1" colspan="5">
+                    <div class="d-flex justify-content-end">Total</div>
+                </th>
+            </ng-template>
+            <th *ngIf="this.CORE.tipo_dato == 'Soles'; else con_precio_footer" class="sticky-1" colspan="7">
+                <div class="d-flex justify-content-end">Total</div>
+            </th>
+            <ng-container>
+                <th class="text-end text-nowrap" *ngFor="let total of this.DT_Totales_ventas; index as i">
+                    <div *ngIf="i != this.DT_Totales_ventas.length - 1; else porcentual">
+                        {{ this.CORE.ComaMiles(total) }}
+                    </div>
+                    <ng-template #porcentual>
+                        {{ this.CORE.Convertir2Decimales(total) }} %
+                    </ng-template>
+                </th>
+                <th></th>
+                <th></th>
+            </ng-container>
+        </tr>
+    </tfoot>
+    <!-- <div id="contenedor_del_spinner2">
+        <div class="visually-hidden" id="spinner_carga_tabla_detallada">
+            <div class="spinner-border text-primary" role="status"></div>
+            <span class="text-primary">  Obteniendo datos, por favor espere...</span>
+        </div>
+    </div> -->
+</table>

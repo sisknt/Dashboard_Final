@@ -1,0 +1,4 @@
+<input list="optionsList" [(ngModel)]="selectedOption" placeholder="Selecciona una opción">
+<datalist id="optionsList">
+  <option *ngFor="let option of options" [value]="option"></option>
+</datalist>

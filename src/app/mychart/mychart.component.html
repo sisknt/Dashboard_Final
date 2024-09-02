@@ -1,0 +1,251 @@
+<div class="container-fluid">
+    <div class="row my-3">
+        <div class="col">
+            <div class="row">
+                <div class="col-12">
+                    <button class="dropdown btn btn-sm btn-secondary dropdown-toggle" (click)="VerificarEstadoBtnGenerar()"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal" id="BtnFiltros">Filtros</button>
+                    <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionStacked">
+                        <input class="btn-check" id="btnradio1" type="radio" name="radioType" checked (click)="cambiarStacked('normal')">
+                        <label class="btn btn-outline-secondary" for="btnradio1">Normal</label>
+                        <input class="btn-check" id="btnradio2" type="radio" name="radioType" (click)="cambiarStacked('100%')">
+                        <label class="btn btn-outline-secondary" for="btnradio2">100%</label>
+                    </div>
+                    <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionType">
+                        <input class="btn-check" id="btnradio5" type="radio" name="radioTypeGrafico"checked
+                        [disabled]="DisposicionButtons === 'Desactivado'" (click)="cambiarGrafico('bar')">
+                        <label class="btn btn-outline-secondary" for="btnradio5">Barra</label>
+                        <input class="btn-check" id="btnradio4" type="radio" name="radioTypeGrafico"
+                        [disabled]="DisposicionButtons === 'Desactivado'" (click)="cambiarGrafico('line')">
+                        <label class="btn btn-outline-secondary" for="btnradio4">Línea</label>
+                        <input class="btn-check" id="btnradio3" type="radio" name="radioTypeGrafico"
+                        [disabled]="DisposicionButtons === 'Desactivado'" (click)="cambiarGrafico('area')">
+                        <label class="btn btn-outline-secondary" for="btnradio3">Área</label>
+                    </div>
+                    <div class="btn-group btn-group-sm" id="GraficsRadioConfiguracionTypeDato">
+                        <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked (click)="updateSeries('SOLES')">
+                        <label class="btn btn-outline-secondary" for="InpTipoDatoSoles">En Soles</label>
+                        <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoPiezas" (click)="updateSeries('PIEZAS')">
+                        <label class="btn btn-outline-secondary" for="InpTipoDatoPiezas">En Piezas</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row my-2 height-auto">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="chart-year">
+                                        <apx-chart
+                                            [series]="chartOptions.series!"
+                                            [chart]="chartOptions.chart!"
+                                            [dataLabels]="chartOptions.dataLabels!"
+                                            [plotOptions]="chartOptions.plotOptions!"
+                                            [yaxis]="chartOptions.yaxis!"
+                                            [xaxis]="chartOptions.xaxis!"
+                                            [subtitle]="chartOptions.subtitle!"
+                                            [colors]="chartOptions.colors!"
+                                            [states]="chartOptions.states!"
+                                            [title]="chartOptions.title!"
+                                            [tooltip]="chartOptions.tooltip!"
+                                        ></apx-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="chart-quarter">
+                                        <apx-chart
+                                            [series]="chartQuarterOptions.series!"
+                                            [chart]="chartQuarterOptions.chart!"
+                                            [legend]="chartQuarterOptions.legend!"
+                                            [plotOptions]="chartQuarterOptions.plotOptions!"
+                                            [yaxis]="chartQuarterOptions.yaxis!"
+                                            [xaxis]="chartQuarterOptions.xaxis!"
+                                            [grid]="chartQuarterOptions.grid!"
+                                            [title]="chartQuarterOptions.title!"
+                                            [tooltip]="chartQuarterOptions.tooltip!"
+                                            [stroke]="chartOptions.stroke!"
+                                            [noData]="chartQuarterOptions.noData!"
+                                        ></apx-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Filtros</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label h6">Cadenas</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" *ngFor="let cadena of FiltroCadena">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio{{cadena}}" type="checkbox" name="radioCadenas" checked (change)="onCheckBoxChangeCadenas($event, cadena)">
+                                    <label class="form-check-label" for="radio{{cadena}}">{{cadena}}</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio4" type="checkbox" name="radioCadenas" disabled (change)="onCheckBoxChangeCadenas($event,'cassinelli')">
+                                    <label class="form-check-label" for="radio4">Cassinelli</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Categorías</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorCategorias">
+                            <div class="col-3" *ngFor="let categoria of FiltroCategoria">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{categoria}}" type="checkbox" checked
+                                        (change)="onCheckboxChangeCategorias($event, categoria)">
+                                    <label class="form-check-label" for="check{{categoria}}">{{categoria}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Locales</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="checkLocales" type="checkbox" (change)="DeseleccionarCheckBoxLocales()">
+                                    <label class="form-check-label" for="checkLocales">Deseleccionar todos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorLocales">
+                            <div class="col-3" *ngFor="let local of FiltroLocal">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{local}}" type="checkbox" [checked]="CheckBoxLocales"
+                                        (change)="onCheckboxChangeLocales($event, local)">
+                                    <label class="form-check-label" for="check{{local}}">{{local}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h6">Producto</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <button class="btn btn-secondary" type="button" id="BtnRestablecerProducto" (click)="LimpiarParametroProductos()">Restablecer</button>
+                                    <input class="form-control InpAgregarProductos" [(ngModel)]="selectedOption" placeholder="Escriba para buscar..." list="MyDATA" [id]="InpAgregarProductos" (keyup)="onInputKeyup($event)">
+                                    <button class="btn btn-secondary" type="button" id="BtnAgregarProducto" (click)="onInputKeyup()">Agregar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info" role="alert" id="LblAlertProductosAgregadors">Click en "Agregar" para añadir productos a buscar...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-primary" id="BtnGenerar" data-bs-dismiss="modal"
+                    (click)="GenerarPeticionApi()">Generar Gráfico</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #placeholder>
+    <div class="row">
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<datalist id="MyDATA">
+    <option *ngFor="let unidad of DataListProductos" [value]="unidad"></option>
+</datalist>

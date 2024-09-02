@@ -1,0 +1,323 @@
+:host {
+    --white: #FFFFFF;
+    --black: #404040;
+    --secondary: #A1A3D4;
+    --border-card: #EFEFEF;
+    --purple-low: #8675FF;
+    --cian-low: #67C8FF;
+    --orange-low: #FF9065;
+    --yellow-low: #F9A243;
+    --red-low: #FE7E7D;
+    --green-low: #7ADEA2;
+    --rosa-low: #E6A5FF;
+    --blue-low: #669AFF;
+    --text-main-low: #383874;
+    --text-main: #383874;
+    --text-secondary: #8484A0;
+    --text-disabled: #B8B4CB;
+    --green-hard: #00B929;
+    --sofia: 'Sofia Sans', sans-serif;
+    --inter: 'Inter', sans-serif;
+    --poppins: 'Poppins', sans-serif;
+    --roboto: 'Roboto', sans-serif;
+}
+
+h1,
+.h1 {
+    font-size: 48px;
+}
+
+h2,
+.h2 {
+    font-size: 34px;
+}
+
+h3,
+.h3 {
+    font-size: 18px;
+}
+
+h4,
+.h4 {
+    font-size: 16px;
+}
+
+h5,
+.h5 {
+    font-size: 12px;
+}
+
+h6,
+.h6 {
+    font-size: 10px;
+}
+
+.contenedor {
+    background-image: url('../../assets/img/map.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: calc(100vh - 60px);
+    padding: 32px 42px 42px 42px;
+    overflow: hidden hidden;
+}
+
+.titulo-main {
+    font-weight: 400;
+    font-family: var(--poppins);
+    color: var(--text-main);
+}
+
+.subtitulo {
+    font-weight: 900;
+    font-family: var(--poppins);
+    color: var(--text-main);
+}
+
+.subtitulo-after {
+    font-weight: 700;
+    font-family: var(--poppins);
+    color: var(--text-main);
+    padding-bottom: 2px;
+}
+
+.subtitulo-semanal {
+    font-weight: 400;
+    font-family: var(--poppins);
+    color: var(--text-main);
+}
+
+.arrow1 {
+    font-size: 10px;
+    width: auto;
+    height: auto;
+}
+
+.subtitulo-bold {
+    font-weight: 600;
+    font-family: var(--poppins);
+    color: var(--text-main);
+}
+
+.grafic-tiendas-porcentual {
+    min-width: 300px;
+    width: 100%;
+}
+
+.card {
+    /* Snow */
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    /* Widget shadow */
+    box-shadow: 0px 100px 80px rgba(108, 73, 172, 0.07), 0px 41.7776px 33.4221px rgba(108, 73, 172, 0.0503198), 0px 22.3363px 17.869px rgba(108, 73, 172, 0.0417275), 0px 12.5216px 10.0172px rgba(108, 73, 172, 0.035), 0px 6.6501px 5.32008px rgba(108, 73, 172, 0.0282725), 0px 2.76726px 2.21381px rgba(108, 73, 172, 0.0196802);
+    filter: none;
+    border-radius: 10px;
+}
+
+.card-tiendas-porcentual {
+    min-width: 300px;
+    width: 100%;
+}
+
+.bi-circle-fill {
+    font-size: 8px;
+}
+
+.propiedad-tienda-porcentual {
+    color: var(--text-main);
+    font-family: var(--poppins);
+    font-size: 12px;
+}
+
+.quote-none {
+    font-family: var(--roboto);
+    color: var(--text-main);
+    font-weight: 400;
+    mix-blend-mode: normal;
+    opacity: 0.6;
+}
+
+.cas {
+    color: #00B929;
+}
+
+.sod {
+    color: #0070B8;
+}
+
+.mas {
+    color: #E71E2E;
+}
+
+.prom {
+    color: #FF6E00;
+}
+
+.propiedad-tienda-porcentual-sm {
+    color: var(--text-main);
+    font-family: var(--poppins);
+    font-size: 10px;
+}
+
+.list-group-sm {
+    --bs-list-group-item-padding-y: 0px;
+}
+
+.grafic-all_anual {
+    min-width: 300px;
+    width: 100%;
+    height: 200px;
+}
+
+#sparkline_barra_all_anual>svg {
+    border: 1px solid black;
+}
+
+.grafic-ocho-semanas {
+    min-width: 300px;
+    /* width: 870px; */
+    min-height: 240px;
+    height: 390px;
+}
+
+.prediccion-titulo {
+    font-family: var(--poppins);
+    color: var(--text-main);
+}
+
+/* PREDICCION */
+.tendencia_prediccion_titulo {
+    font-weight: 400;
+    font-family: var(--poppins);
+    color: var(--text-main);
+    margin: 0px 0px 0px 0px;
+}
+
+.tendencia_prediccion_subtitulo {
+    font-weight: 400;
+    font-family: var(--poppins);
+    color: var(--text-main);
+    opacity: 0.6;
+}
+
+.tendencia_prediccion_valor {
+    font-weight: 700;
+    font-family: var(--poppins);
+    color: var(--text-main);
+}
+
+.card-tendencia-prediccion {
+    padding: 30px 30px 30px 30px;
+}
+
+#grafic_tendencia_ocho_semanas_prediccion {
+    height: 100px;
+}
+
+.tendencia_estado_titulo {
+    font-weight: 400;
+    font-family: var(--poppins);
+    color: var(--text-main);
+    margin: 0px 0px 0px 0px;
+}
+
+.tendencia_estado_subtitulo {
+    font-weight: 400;
+    font-family: var(--poppins);
+    color: var(--text-main);
+    opacity: 0.6;
+}
+
+.card-tendencia-estado {
+    padding: 40px 40px 40px 40px;
+}
+
+#grafic_tendencia_ocho_semanas_estado {
+    height: 50px;
+}
+
+#sparkline_barra_all_anual>* {
+    transition: all 0.5s ease-in-out;
+}
+
+/* RESPONSIVE ALTURA*/
+@media(min-height:500px) {
+    .contenedor {
+        overflow: auto;
+    }
+}
+
+@media (min-height: 900px) {
+    .grafic-all_anual {
+        min-width: 300px;
+        width: 100%;
+        height: 200px;
+        transition: 0.5s ease-in-out all;
+    }
+
+}
+
+@media (min-height: 1000px) {
+    .grafic-all_anual {
+        min-width: 300px;
+        width: 100%;
+        height: 300px;
+        transition: 0.5s ease-in-out all;
+    }
+
+}
+
+/* RESPONSIVE ANCHO */
+@media (max-width: 500px) {
+    .contenedor {
+        padding: 20px 20px 20px 20px;
+    }
+
+    .grafic-ocho-semanas {
+        min-width: 600px;
+        overflow-y: auto;
+    }
+
+    #sparkline_barra_all_anual {
+        min-width: 800px;
+        width: 100%;
+    }
+
+    .card {
+        /* Snow */
+        background: #FFFFFF;
+        border: 1px solid #FFFFFF;
+        /* Widget shadow */
+        box-shadow: none;
+        filter: drop-shadow(9px 13px 11px rgba(0, 0, 0, 0.06));
+        border-radius: 10px;
+    }
+
+    .card-tendencia-prediccion {
+        padding: 20px 0px 20px 0px;
+    }
+
+    .card-tendencia-estado {
+        padding: 30px 20px 30px 20px;
+    }
+}
+
+.alert {
+    --bs-alert-margin-bottom: 1rem;
+    --bs-alert-border: var(--bs-border-width) solid var(--bs-alert-border-color);
+    --bs-alert-border-radius: 0.375rem;
+    position: relative;
+    padding: 6px 6px;
+    margin-bottom: var(--bs-alert-margin-bottom);
+    color: var(--bs-alert-color);
+    background-color: var(--bs-alert-bg);
+    border: var(--bs-alert-border);
+    border-radius: var(--bs-alert-border-radius);
+}
+
+#chart {
+    max-width: 380px;
+    margin: 35px auto;
+    padding: 0;
+}

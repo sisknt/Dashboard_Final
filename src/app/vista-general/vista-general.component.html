@@ -1,0 +1,258 @@
+<ng-template #valor_0_rango>
+    <td>0 semanas registradas</td>
+</ng-template>
+<div class="contenedor">
+    <div class="row">
+        <!-- ------------------------------------------------------------------------------------------------------------- -->
+        <div class="col-3 col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12
+                    order-xxl-1 order-xl-1 order-lg-1 order-md-1 order-sm-1 order-1
+                    ">
+            <h2 class="titulo-main">Vista General</h2>
+            <div class="d-flex">
+                <h3 class="subtitulo">Venta Total</h3>
+                <div class="pe-3"></div>
+                <div class="d-flex align-items-end ">
+                    <h6 class="subtitulo-after ">de todas las empresas</h6>
+                </div>
+            </div>
+            <div class="mb-3"></div>
+            <div class="card card-tiendas-porcentual">
+                <div class="card-body" style="color: #3A3876;">
+                    <h3 style="font-size: 14px;">Cantidad de semanas registradas - CERAMICAS KANTU</h3>
+                    <table class="table" style="font-size: 12px;">
+                        <tbody>
+                            <tr *ngFor="let sem of this.rango_semanas_empresa_tienda; index as posicion">
+                                <ng-container *ngIf="sem.empresa == 'KANTU'">
+                                    <td>{{ sem.cadena }}</td>
+                                    <td *ngIf="sem.cantidad_semanas !== undefined; else valor_0_rango">
+                                        {{ sem.cantidad_semanas }} semanas registradas
+                                    </td>
+                                    <td>
+                                        <i [ngClass]="{'bi bi-x text-danger': this.semanaMayor > sem.cantidad_semanas, 'bi bi-check text-success': sem.cantidad_semanas == this.semanaMayor}"></i>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h3 style="font-size: 14px;">Cantidad de semanas registradas - DECOR SAN BLAS</h3>
+                    <table class="table" style="font-size: 12px;">
+                        <tbody>
+                            <tr *ngFor="let sem of this.rango_semanas_empresa_tienda; index as posicion">
+                                <ng-container *ngIf="sem.empresa == 'DSB'">
+                                    <td>{{ sem.cadena }}</td>
+                                    <td *ngIf="sem.cantidad_semanas !== undefined; else valor_0_rango">
+                                        {{ sem.cantidad_semanas }} semanas registradas
+                                    </td>
+                                    <td>
+                                        <i [ngClass]="{'bi bi-x text-danger': this.semanaMayor > sem.cantidad_semanas, 'bi bi-check text-success': sem.cantidad_semanas == this.semanaMayor}"></i>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mb-4"></div>
+        </div>
+        <!-- ------------------------------------------------------------------------------------------------------------- -->
+        <div class="col-6 col-xxl-6 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex
+                    order-xxl-2 order-xl-3 order-lg-3 order-md-3 order-sm-3 order-3
+                    justify-content-center align-items-center">
+            <div class="card" style="width: 100%;">
+                <div class="card-body" style="width: 100%; overflow-x: auto; color: #3A3876;">
+                    <h3 style="text-align: center; font-size: 25px;">Seleccione el año</h3>
+                    <select class="form-control"
+                        style="color: #3A3876 !important; font-weight: bolder; font-size: 20px; text-align: center; width: 20%; margin: 0 auto;"
+                        (change)="EstablecerCategoriasEmpresa(HTML_Select_year.value, seleccion_empresa.value)"
+                        (change)="CambiarDatosAnuales(HTML_Select_year.value)" id="seleccion_year" #HTML_Select_year>
+                        <ng-container *ngFor="let year of years.reverse()">
+                            <option value="{{ year }}">{{ year }}</option>
+                        </ng-container>
+                    </select>
+                    <br>
+                    <h3>CERÁMICAS KANTU</h3>
+                    <table class="table">
+                        <tbody style="font-size: 14px; color: #3A3876 !important;">
+                            <tr *ngFor="let tienda of this.empresas.kantu; let i = index">
+                                <td>{{ tienda.tienda }}</td>
+                                <ng-container *ngFor="let sem of this.rango_semanas_empresa_tienda">
+                                    <td *ngIf="sem.cadena == tienda.tienda && sem.empresa == 'KANTU'">{{ sem.rango }}</td>
+                                </ng-container>
+                                <td class="text-end">S/. {{ this.core.ComaMiles(tienda.monto) }}</td>
+                                <td class="text-end">{{ this.core.CalcularPorcentaje(tienda.monto, this.empresas.total_kantu) }} %</td>
+                            </tr>
+                        </tbody>
+                        <tfoot style="font-size: 14px; color: #3A3876 !important;">
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bolder; text-align: right;">TOTAL</td>
+                                <td class="text-end" style="background-color: #b21f57; color: white; border-radius: 20px;">S/. {{
+                                    this.core.ComaMiles(this.empresas.total_kantu) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <h3>DECOR SAN BLAS</h3>
+                    <table class="table">
+                        <tbody style="font-size: 14px; color: #3A3876 !important;">
+                            <tr *ngFor="let tienda of this.empresas.decor; let i = index">
+                                <td>{{ tienda.tienda }}</td>
+                                <ng-container *ngFor="let sem of this.rango_semanas_empresa_tienda">
+                                    <td *ngIf="sem.cadena == tienda.tienda && sem.empresa == 'DSB'">{{ sem.rango }}</td>
+                                </ng-container>
+                                <td class="text-end">S/. {{ this.core.ComaMiles(tienda.monto) }}</td>
+                                <td class="text-end">{{ this.core.CalcularPorcentaje(tienda.monto, this.empresas.total_decor) }} %</td>
+                            </tr>
+                        </tbody>
+                        <tfoot style="font-size: 14px; color: #3A3876 !important;">
+                            <tr>
+                                <td></td>
+                                <td style="font-weight: bolder; text-align: right;">TOTAL</td>
+                                <td class="text-end" style="background-color: #004298; color: white; border-radius: 20px;">S/. {{
+                                    this.core.ComaMiles(this.empresas.total_decor) }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- ------------------------------------------------------------------------------------------------------------- -->
+        <div class="col-3 col-xxl-3 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12
+                    order-xxl-3 order-xl-2 order-lg-2 order-md-2 order-sm-2 order-2
+                    ">
+            <h4
+                class="prediccion-titulo
+                        display-xxl-inline display-xl-inline display-lg-inline display-md-none display-sm-none display-none">
+                TOTAL GLOBAL DEL AÑO (CERAMICAS KANTU Y DECOR)</h4>
+            <div class="mb-4"></div>
+            <div
+                style="font-size: 40px; color: white; padding: 0.3em; text-align: center; background-color: #3A3876; border-radius: 20px;">
+                S/. {{ this.core.ComaMiles(this.empresas.total_decor + this.empresas.total_kantu) }}
+            </div>
+            <div class="row bg-transparent">
+                <div class="col">
+                    <div id="chart">
+                        <apx-chart
+                            [series]="chartOptions.series!"
+                            [chart]="chartOptions.chart!"
+                            [dataLabels]="chartOptions.dataLabels!"
+                            [plotOptions]="chartOptions.plotOptions!"
+                            [xaxis]="chartOptions.xaxis!"
+                            [stroke]="chartOptions.stroke!"
+                            [fill]="chartOptions.fill!"
+                            [title]="chartOptions.title!"
+                            [tooltip]="chartOptions.tooltip!"
+                            [legend]="chartOptions.legend!"
+                            [grid]="chartOptions.grid!"
+                            [noData]="chartOptions.noData!"
+                            [colors]="chartOptions.colors!"
+                            [labels]="chartOptions.labels!"
+                            [tooltip]="chartOptions.tooltip!"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-4"></div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-title">
+                    <h4 class="titulo-main text-nowrap mt-3"
+                                style="position: sticky; top: 0; font-size: 18px; font-weight: bolder; text-align: center;">
+                                Análisis de categorias</h4>
+                            <select class="form-control"
+                                style="width: 20%; margin: 0 auto; text-align: center; color: #3A3876"
+                                (change)="EstablecerCategoriasEmpresa(HTML_Select_year.value, seleccion_empresa.value)"
+                                #seleccion_empresa>
+                                <option value="KANTU">CERAMICAS KANTU</option>
+                                <option value="DSB">DECOR SAN BLAS</option>
+                            </select>
+                </div>
+                <div class="card-body" style="color: #3A3876; font-size: 14px;">
+                    <div class="row">
+                        <div class="col-8">
+                            <div>
+                                <table class="table" style="color: #3A3876;">
+                                    <thead>
+                                        <tr style="font-weight: bolder;">
+                                            <td>Activadores</td>
+                                            <td class="text-end">CATEGORIA</td>
+                                            <td class="text-end">MONTO</td>
+                                            <td class="text-end">PARTICIPACION MONTO</td>
+                                            <td class="text-end">CANTIDAD</td>
+                                            <td class="text-end">PARTICIPACION CANTIDAD</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let total_categoria of this.categoria_total_empresas.categorias; index as i">
+                                            <td aria-label="Activadores">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="input{{total_categoria.categoria}}" checked style="box-shadow: none;"
+                                                        [value]="total_categoria.categoria" (click)="this.recategorizar('input'+total_categoria.categoria)"
+                                                        [style.background-color]="this.core.colores_categorias_eliminable[i]"
+                                                        [style.border-color]="this.core.colores_categorias_eliminable[i]">
+                                                    <label for="form-check-label"
+                                                        for="input{{total_categoria.categoria}}"></label>
+                                                </div>
+                                            </td>
+                                            <td aria-label="CATEGORIA">
+                                                <ng-container *ngIf="total_categoria.categoria === 'QEP'; else otherContent">MAQUINARIA Y HERRAMIENTA</ng-container>
+                                                <ng-template #otherContent>{{ total_categoria.categoria }}</ng-template>
+                                            </td>
+                                            <td aria-label="MONTO" class="text-end">S/. {{ this.core.ComaMiles(ConvertirANumero(total_categoria.monto)) }}</td>
+                                            <td aria-label="PARTICIPACION MONTO" class="text-end">{{ this.core.CalcularPorcentaje(ConvertirANumero(total_categoria.monto),this.realizar_suma_monto()) }} %</td>
+                                            <td aria-label="CANTIDAD" class="text-end">{{ this.core.ComaMiles(ConvertirANumero(total_categoria.cantidad)) }}
+                                            </td>
+                                            <td aria-label="PARTICIPACION CANTIDAD" class="text-end">{{this.core.CalcularPorcentaje(ConvertirANumero(total_categoria.cantidad),this.realizar_suma_cantidad()) }} %</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>
+                                                <button class="btn btn-sm btn-secondary" (click)="this.EstablecerCategoriasEmpresa(HTML_Select_year.value, seleccion_empresa.value)">Restablecer</button>
+                                            </td>
+                                            <td style="text-align: right; font-weight: bolder;">Total soles:</td>
+                                            <td class="text-end" style="background-color: #3A3876; color: white; border-radius: 20px;">
+                                                S/. {{ this.core.ComaMiles(this.realizar_suma_monto()) }}</td>
+                                            <td style="text-align: right; font-weight: bolder;">Total cantidad:</td>
+                                            <td class="text-end" style="background-color: #3A3876; color: white; border-radius: 20px;">{{
+                                                this.core.ComaMiles(this.realizar_suma_cantidad()) }}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card-title">
+                                <h4 class="titulo-main text-nowrap my-2"
+                                    style="position: sticky; top: 0; font-size: 16px; font-weight: bolder; text-align: center;">
+                                    Vista Gráfica
+                                </h4>
+                            </div>
+                            <apx-chart 
+                                [series]="chartOptions2.series!"
+                                [chart]="chartOptions2.chart!"
+                                [dataLabels]="chartOptions2.dataLabels!"
+                                [plotOptions]="chartOptions2.plotOptions!"
+                                [xaxis]="chartOptions2.xaxis!"
+                                [stroke]="chartOptions2.stroke!"
+                                [fill]="chartOptions2.fill!"
+                                [title]="chartOptions2.title!"
+                                [tooltip]="chartOptions2.tooltip!"
+                                [legend]="chartOptions2.legend!"
+                                [grid]="chartOptions2.grid!"
+                                [noData]="chartOptions2.noData!"
+                                [colors]="chartOptions2.colors!"
+                                [labels]="chartOptions2.labels!"
+                                [tooltip]="chartOptions2.tooltip!"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

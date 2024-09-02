@@ -1,0 +1,76 @@
+<ng-template #valor_nulo>
+    <div style="color: red;">0</div>
+</ng-template>
+<table class="table-bordered table-cebra" id="tabla_resumen">
+    <thead>
+        <tr>
+            <th class="head-th sticky">Categoría</th>
+            <th class="head-th" *ngFor="let semana of this.DT_Semanas">
+                <div class="text-center">
+                          {{semana[0]}}{{semana[1]}}{{semana[2]}}{{semana[3]}}{{semana[4]}}{{semana[5]}}{{semana[6]}}      
+                </div>
+                <div class="text-center" *ngIf="semana[7] == '('; else fecha_1">
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[8]}}{{semana[9]}}{{semana[10]}}{{semana[11]}}{{semana[12]}}{{semana[13]}}{{semana[14]}}{{semana[15]}}{{semana[16]}}{{semana[17]}}{{semana[18]}}
+                    </p>
+                </div>
+                <ng-template #fecha_1>
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[8+1]}}{{semana[9+1]}}{{semana[10+1]}}{{semana[11+1]}}{{semana[12+1]}}{{semana[13+1]}}{{semana[14+1]}}{{semana[15+1]}}{{semana[16+1]}}{{semana[17+1]}}{{semana[18+1]}}
+                    </p>
+                </ng-template>
+                <div class="text-center" *ngIf="semana[32] == ')'; else fecha_2">
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[22]}}{{semana[23]}}{{semana[24]}}{{semana[25]}}{{semana[26]}}{{semana[27]}}{{semana[28]}}{{semana[29]}}{{semana[30]}}{{semana[31]}}
+                    </p>
+                </div>
+                <ng-template #fecha_2>
+                    <p class="collapse" id="collapseExample" style="margin-top: 0px; margin-bottom: 0px;">
+                        {{semana[22+1]}}{{semana[23+1]}}{{semana[24+1]}}{{semana[25+1]}}{{semana[26+1]}}{{semana[27+1]}}{{semana[28+1]}}{{semana[29+1]}}{{semana[30+1]}}{{semana[31+1]}}
+                    </p>
+                </ng-template>
+            </th>
+            <th class="head-th text-end">Total</th>
+            <th class="head-th">Promedio</th>
+            <th class="head-th">Participacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <div id="contenedor_del_spinner_resumen">
+            <div class="visually-hidden" id="spinner_carga_tabla_resumen">
+                <div class="spinner-border text-primary" role="status"></div>
+                <span class="text-primary">  Obteniendo datos, por favor espere...</span>
+            </div>
+        </div>
+        <ng-container>
+            <tr *ngFor="let categoria of this.DT_Categorias; index as posicion" #fila class="fila"
+                (click)="Seleccionar(fila)">
+                <td class="body-td sticky">
+                    <ng-container *ngIf="categoria.toUpperCase() === 'QEP'; else otherContent">MAQUINARIA Y HERRAMIENTA</ng-container>
+                    <ng-template #otherContent>{{ categoria.toUpperCase() }}</ng-template>
+                </td>
+                <td class="body-td" *ngFor="let semana of this.DT_Semanas; index as posicion_semana">
+                    <div class="text-end" *ngIf="this.ObtenerVentaResumen(posicion_semana).periodo == semana; else valor_nulo">
+                        {{ this.CORE.ComaMiles(this.ObtenerValorCategoria(this.ObtenerVentaResumen(posicion_semana),
+                        categoria.toLowerCase())) }}
+                    </div>
+                </td>
+                <td class="body-td text-end">{{ this.CORE.ComaMiles(this.ObtenerTotalCategoria(categoria.toLowerCase())) }}</td>
+                <td class="body-td text-end">{{ this.CORE.ComaMiles(this.ObtenerPromedioCategoria(categoria.toLowerCase(),
+                    this.DT_Semanas.length)) }}</td>
+                <td class="body-td text-end">{{ this.ObtenerParticipacionCategoria(categoria.toLowerCase()) }} %</td>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th class="tfoot-th sticky">Total</th>
+            <th class="tfoot-th text-end" *ngFor="let semana of this.DT_Semanas">
+                {{ this.CORE.ComaMiles(this.ObtenerTotalSemana(semana)) }}
+            </th>
+            <th class="tfoot-th text-end">{{ this.CORE.ComaMiles(this.ObtenerTotalSemanal()) }}</th>
+            <th class="tfoot-th text-end">{{ this.CORE.ComaMiles(this.ObtenerPromedioSemanal()) }}</th>
+            <th class="tfoot-th text-end">{{ this.ObtenerTotalParticipacion() }} %</th>
+        </tr>
+    </tfoot>
+</table>

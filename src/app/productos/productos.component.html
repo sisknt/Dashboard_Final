@@ -1,0 +1,59 @@
+<!-- <div class="contenedor_tabla">
+    <div class="btn_accion">
+        <div class="mb-3">
+            <label for="formFileSm" class="form-label">Importar lista de precios</label>
+            <input class="form-control form-control-sm" #CargarListaPrecios type="file">
+            <button class="btn btn-success" (click)="LeerExcelPrecios(CargarListaPrecios)">Cargar lista precios</button>
+        </div>
+        <div class="mb-3">
+            <label for="formFileSm" class="form-label">Importar productos</label>
+            <input class="form-control form-control-sm" #InputProductosImportacion type="file">
+            <button class="btn btn-success" (click)="LeerExcelProductos(InputProductosImportacion)">Cargar lista de productos</button>
+        </div>
+        <div class="mb-3">
+            <label for="formFileSm" class="form-label">Actualizacion masiva</label>
+            <input class="form-control form-control-sm" #InputActualizacionMasiva type="file">
+            <button class="btn btn-success" (click)="LeerExcelActualizacion(InputActualizacionMasiva)">Actualizar masivamente</button>
+        </div>
+        <button class="btn btn-success" (click)="DescargarExcel(tabla_productos)">Descargar Excel</button>
+        <a class="btn btn-success" href="/assets/documents/precios_importacion.xlsx"
+            download="Importacion precios productos">Descargar Plantilla de importacion lista de precios</a>
+        <a class="btn btn-success" href="/assets/documents/productos_importacion.xlsx"
+            download="Importacion precios productos">Descargar Plantilla de importacion productos</a>
+    </div>
+    <div class="bucar_grupo">
+        <input type="text" class="form-control" #input_busqueda_producto placeholder="Buscar producto">
+        <button class="btn btn-success" (click)="BuscarProducto(tabla_productos,input_busqueda_producto)">Buscar</button>
+    </div>
+    <table class="table table-hover" #tabla_productos>
+        <thead>
+            <tr>
+                <td>N°</td>
+                <td>Sku</td>
+                <td>Nombre</td>
+                <td>Categoria</td>
+                <td>Tienda</td>
+                <td (click)="Ordenar()">Precio (S/.)</td>
+                <td>Empresa</td>
+            </tr>
+        </thead>
+        <tbody>
+            <div class="" id="spinner_carga">
+                <div class="spinner-border" role="status">
+                </div>
+                <span>Obteniendo datos, por favor espere...</span>
+            </div>
+            <tr *ngFor="let producto of this.productos; index as i">
+                <td>{{ i + 1 }}</td>
+                <td>{{ producto.sku }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.categoria }}</td>
+                <td>{{ producto.tienda }}</td>
+                <td>{{ producto.precio }}</td>
+                <td>{{ producto.empresa }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div> -->

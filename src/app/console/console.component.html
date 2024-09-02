@@ -1,0 +1,47 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <button class="btn btn-success" (click)="CargarDatosGrafico()">Cargar Datos</button>
+                    <button class="btn btn-primary" (click)="cambiarDatos()">Cambiar Datos</button>
+                    <button class="btn custom-indigo-100" (click)="agregarTendenciaLineal()">Agregar Tendencia Lineal</button>
+                    <button class="btn custom-indigo-200" (click)="agregarTendenciaExponencial()">Agregar Tendencia Exponencial</button>
+                    <button class="btn custom-indigo-300" (click)="agregarTendenciaLogaritmica()">Agregar Tendencia Logarítmica</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body d-flex">
+                    <div *ngFor="let grafico of this.TiposDeGrafico">
+                        <button class="btn btn-outline-primary btn-sm" (click)="this.cambiarGrafico(grafico)">Cambiar a {{grafico}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div id="chart">
+                        <apx-chart #grafico
+                          [series]="chartOptions.series"
+                          [chart]="chartOptions.chart"
+                          [xaxis]="chartOptions.xaxis"
+                          [dataLabels]="chartOptions.dataLabels"
+                          [grid]="chartOptions.grid"
+                          [stroke]="chartOptions.stroke"
+                          [title]="chartOptions.title"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
