@@ -398,19 +398,23 @@ export class VistaGeneralComponent implements OnInit {
       this.core.colores_categorias_eliminable.push(colores)
     })
   }
-  realizar_suma_monto(){
-    var suma = 0;
-    this.categoria_total_empresas.categorias.forEach(category => {
-      suma += Number(category.monto);
-    })
-    return Math.floor(suma);
+  realizar_suma_monto() {
+    let suma = 0;
+    if (this.categoria_total_empresas?.categorias) {
+      this.categoria_total_empresas.categorias.forEach(category => {
+        suma += Number(category.monto);
+      });
+    }
+    return suma;
   }
-  realizar_suma_cantidad(){
-    var suma = 0;
-    this.categoria_total_empresas.categorias.forEach(category => {
-      suma += Number(category.cantidad);
-    })
-    return Math.floor(suma);
+  realizar_suma_cantidad() {
+    let suma = 0;
+    if (this.categoria_total_empresas?.categorias) {
+      this.categoria_total_empresas.categorias.forEach(category => {
+        suma += Number(category.cantidad);
+      });
+    }
+    return suma;
   }
   calcularSemanaMayor(){
     this.semanaMayor = 0;
