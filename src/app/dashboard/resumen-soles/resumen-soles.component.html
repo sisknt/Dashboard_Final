@@ -122,13 +122,23 @@
                                     <input type="email" style="background-color: #ffffff;"
                                         class="form-control form-control-sm input-buscar" id="TxbBuscar"
                                         (keyup)="EventoTecla($event,tabla_detallada)" aria-describedby="emailHelp"
-                                        placeholder="Escribe para buscar..." list="datalistOpciones">
+                                        placeholder="Escribe para buscar..." list="datalistOpciones" #InpBuscar>
                                     <datalist id="datalistOpciones">
-                                        <option *ngFor="let item of this.core.ArrayDeProductosBuscar" value="{{item}}"></option>
+                                        <option *ngFor="let item of this.core.ArrayDeProductosBuscar" [value]="item"></option>
                                     </datalist>
                                 </div>
-                                <div class="col-2">
-                                    <button class="btn btn-primary btn-sm" id="BtnBuscar" (click)="EventoTecla($event,tabla_detallada)">Buscar</button>
+                                <div class="col-10 mt-2 d-flex gap-3 gap-column-3">
+                                    <!-- <button class="btn btn-primary btn-sm" id="BtnBuscar" (click)="EventoTecla($event,tabla_detallada)">Buscar</button> -->
+                                    <button class="btn btn-success btn-sm" id="BtnFiltro" (click)="AgregarFiltro(filtros,InpBuscar)">Agregar Filtro</button>
+                                    <button class="btn btn-warning btn-sm" id="BtnAplicarFiltro" style="color: white;" (click)="EventoTeclaFiltroSkus(filtros,tabla_detallada)">Aplicar Filtro</button>
+                                    <button class="btn btn-danger btn-sm" id="BtnLimpiarFiltros" (click)="LimpiarFiltro(filtros)">Limpiar Filtro</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10 mt-2">
+                                    <div #filtros class="overflow-auto" style="font-size: 13px; border: solid 1px white; border-radius: 10px; padding: 1em; background-color: #343A40; color: #ffffff; max-height: 100px;">
+                                        Boton verde para agregar productos al filtro...
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -3,24 +3,22 @@
         <div class="col-12">
             <button class="dropdown btn btn-sm btn-secondary dropdown-toggle"
                 data-bs-toggle="modal" data-bs-target="#ModalFiltros" id="BtnFiltros">Filtros</button>
-            <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionStacked">
+            <div class="btn-group btn-group-sm ms-2" id="GraficsRadioConfiguracionStacked">
                 <input class="btn-check" id="btnradio1" type="radio" name="radioType" checked>
                 <label class="btn btn-outline-secondary" for="btnradio1">Normal</label>
-                <input class="btn-check" id="btnradio2" type="radio" name="radioType">
-                <label class="btn btn-outline-secondary" for="btnradio2">100%</label>
             </div>
-            <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionType">
-                <input class="btn-check" id="btnradio5" type="radio" name="radioTypeGrafico"checked>
+            <div class="btn-group btn-group-sm ms-2" id="GraficsRadioConfiguracionType">
+                <input class="btn-check" id="btnradio5" type="radio" name="radioTypeGrafico"checked (click)="cambiarGrafico('bar')">
                 <label class="btn btn-outline-secondary" for="btnradio5">Barra</label>
-                <input class="btn-check" id="btnradio4" type="radio" name="radioTypeGrafico">
+                <input class="btn-check" id="btnradio4" type="radio" name="radioTypeGrafico" (click)="cambiarGrafico('line')">
                 <label class="btn btn-outline-secondary" for="btnradio4">Línea</label>
-                <input class="btn-check" id="btnradio3" type="radio" name="radioTypeGrafico">
+                <input class="btn-check" id="btnradio3" type="radio" name="radioTypeGrafico" (click)="cambiarGrafico('area')">
                 <label class="btn btn-outline-secondary" for="btnradio3">Área</label>
             </div>
-            <div class="btn-group btn-group-sm" id="GraficsRadioConfiguracionTypeDato">
-                <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked>
+            <div class="btn-group btn-group-sm ms-2" id="GraficsRadioConfiguracionTypeDato">
+                <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked (click)="CambiarSeries('S')">
                 <label class="btn btn-outline-secondary" for="InpTipoDatoSoles">En Soles</label>
-                <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoPiezas">
+                <input class="btn-check"type="radio" name="radioTypeDato" id="InpTipoDatoPiezas" (click)="CambiarSeries('P')">
                 <label class="btn btn-outline-secondary" for="InpTipoDatoPiezas">En Piezas</label>
             </div>
         </div>
@@ -54,6 +52,10 @@
                 [xaxis]="chartQuarterOptions.xaxis!"
                 [grid]="chartQuarterOptions.grid!"
                 [title]="chartQuarterOptions.title!"
+                [stroke]="chartQuarterOptions.stroke!"
+                [dataLabels]="chartQuarterOptions.dataLabels!"
+                [noData]="chartQuarterOptions.noData!"
+                [tooltip]="chartQuarterOptions.tooltip!"
             ></apx-chart>
         </div>
     </div>
@@ -133,11 +135,11 @@
                             </div>
                         </div>
                         <div class="row" id="ContenedorLocales">
-                            <div class="col-3" *ngFor="let local of FiltroLocal">
+                            <div class="col-3" *ngFor="let local of this.Filtros.ubicaciones">
                                 <div class="form-check">
-                                    <input class="form-check-input" id="check{{local}}" type="checkbox" [checked]="CheckBoxLocales"
-                                        (change)="onCheckboxChangeLocales($event, local)">
-                                    <label class="form-check-label" for="check{{local}}">{{local}}</label>
+                                    <input class="form-check-input" id="check{{local.codigo}}" type="checkbox" [checked]="CheckBoxLocales"
+                                        (change)="onCheckboxChangeLocales($event, local.codigo)">
+                                    <label class="form-check-label" for="check{{local.codigo}}">{{local.local_tienda}}</label>
                                 </div>
                             </div>
                         </div>

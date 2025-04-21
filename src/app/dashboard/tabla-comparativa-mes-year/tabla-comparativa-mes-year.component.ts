@@ -31,7 +31,7 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
     cadenas: [],
     categorias: [],
     zonas: [],
-    locales_tienda:[],
+    ubicaciones:[],
     productos:[]
   };
   mes_inicial = '2000-01'
@@ -112,7 +112,7 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
     var numMesF: number = Number(MesF);
     var newMesI: string = this.core.ConvertirMesTexto2(numMesI);
     var newMesF: string = this.core.ConvertirMesTexto2(numMesF);
-    this.api.ObtenerComparativoMensualYear(this.core.Empresa_Actual, this.core.Year_Actual, newMesI, newMesF, this.ParametroZona).subscribe((respuesta: any) => {
+    this.api.ObtenerComparativoMensualYear(this.core.Empresa_Actual, this.core.Year_Actual, newMesI, newMesF, this.ParametroLocal).subscribe((respuesta: any) => {
       console.log(MesI, MesF);
       this.ComparativoVentas = respuesta["ventas"];
       this.construirMesesPeriodos(this.ComparativoVentas);
@@ -284,9 +284,10 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
       this.CheckBoxLocales = false
     } else {
       this.CheckBoxLocales = true;
-      this.FiltroLocales.forEach(local => {
-        this.urlLocal.push(local)
+      this.Filtros.ubicaciones.forEach(local => {
+        this.urlLocal.push(local.codigo)
       })
+      this.ParametroLocal = 'TODOS_LOCALES';
     }
   }
   onCheckboxChangeZonas(event: any, zona: string) {
@@ -417,13 +418,8 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
         this.urlCategoria.push(categoria);
         this.FiltroCategoria.push(categoria);
       });
-      this.Filtros.zonas.forEach(zona => {
-        this.urlZona.push(zona);
-        this.FiltroZona.push(zona);
-      });
-      this.Filtros.locales_tienda.forEach(local => {
-        this.urlLocal.push(local);
-        this.FiltroLocales.push(local);
+      this.Filtros.ubicaciones.forEach(local => {
+        this.urlLocal.push(local.local_tienda);
       });
       this.Filtros.productos.forEach(producto => {
         this.FiltroSku.push(producto.sku);
@@ -475,8 +471,14 @@ interface FiltroJson {
   cadenas: string[];
   categorias: string[];
   zonas: string[];
-  locales_tienda: string[];
+  ubicaciones: ubicaciones[];
   productos: FiltroProducto[];
+}
+interface ubicaciones {
+  cadena: string;
+  codigo: string;
+  local_tienda: string;
+  zona: string;
 }
 interface VentaItem {
   rango_mes: string;

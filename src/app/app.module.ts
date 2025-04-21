@@ -24,6 +24,7 @@ import { Resumen1Component } from "./resumen1/resumen1.component";
 import { TablaComparativaMesYearComponent } from './dashboard/tabla-comparativa-mes-year/tabla-comparativa-mes-year.component';
 
 import { TagInputComponent } from './tag-input/tag-input.component';
+import { DatalistComponent } from './datalist/datalist.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { TagInputComponent } from './tag-input/tag-input.component';
     Resumen1Component,
     TablaComparativaMesYearComponent,
     TagInputComponent,
+    DatalistComponent,
   ],
   imports: [
     BrowserModule,

@@ -20,8 +20,8 @@ export class ResumenSolesComponent implements OnInit {
 
   hosting: string = `${this.core.host}/grafico-general`;
   arreglo_total_datos_yaxis: number[] = [];
-  arrayTipologias: string[] = ["Tipologia 1 al 1 (50%)", "Tipologia 1 al 2 (80%)", "Tipologia 1 al 3 (95%)","Tipología 1 al 4 (100%)"];
-  arrayTipologiasValores: string[] = ["50", "80", "95","100"];
+  arrayTipologias: string[] = ["Tipologia 1 al 1 (50%)", "Tipologia 1 al 2 (80%)", "Tipologia 1 al 3 (95%)", "Tipología 1 al 4 (100%)"];
+  arrayTipologiasValores: string[] = ["50", "80", "95", "100"];
 
   arreglo_total_daros_xaxis: string[] = [];
 
@@ -41,6 +41,62 @@ export class ResumenSolesComponent implements OnInit {
         this.categorias_empresa = data["categorias"];
       }
     );
+  }
+
+  AplicarFiltroBusqueda(filtros_div: HTMLDivElement, table?: TableComponent) {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", "frontend_lang=es_PE; session_id=4d1a8ed5607cb3523492e06517dded690742bba1");
+
+    const raw = JSON.stringify({
+      "jsonrpc": "2.0",
+      "id": 10,
+      "params": {
+        "empresa": this.core.Empresa_Actual,
+        "cadena": this.core.Tienda_Actual,
+        "lista_nombres": this.core.ArraySKUsFiltros
+      }
+    });
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch("https://odoo17.ceramicaskantu.com/obtener/sku/post", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result["result"]["skus"].length == 0) {
+          this.core.busqueda_actual = "TODOS_PRODUCTOS";
+        } else {
+          this.core.ArraySKUsFiltros = result["result"]["skus"];
+          var skus_string = "";
+          this.core.ArraySKUsFiltros.forEach((b) => {
+            skus_string += `${b}+`
+          });
+          skus_string = skus_string.slice(0, -1);
+          this.core.busqueda_actual = skus_string;
+          table?.ActualizarTabla();
+          filtros_div.innerHTML = "Boton verde para agregar productos al filtro...";
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  AgregarFiltro(contendor_filtros: HTMLDivElement, input_buscar: HTMLInputElement) {
+    if(String(contendor_filtros.innerHTML.trim()) === "Boton verde para agregar productos al filtro...") {
+      contendor_filtros.innerHTML = "";
+    }
+    contendor_filtros.innerHTML += `<div> <i class="bi bi-caret-right-square-fill"></i> ${input_buscar.value}</div>`;
+    this.core.ArraySKUsFiltros.push(input_buscar.value);
+    input_buscar.value = "";
+  }
+
+  LimpiarFiltro(contendor_filtros: HTMLDivElement) {
+    contendor_filtros.innerHTML = "Boton verde para agregar productos al filtro...";
+    this.core.ArraySKUsFiltros.length = 0;
   }
 
   AplicarSeleccion() {
@@ -166,6 +222,9 @@ export class ResumenSolesComponent implements OnInit {
       this.AplicarFiltro();
       tabla?.ActualizarTabla();
     }
+  }
+  EventoTeclaFiltroSkus(filtros_div: HTMLDivElement, tabla?: TableComponent) {
+    this.AplicarFiltroBusqueda(filtros_div, tabla);
   }
 
   RestablecerBusqueda() {
@@ -340,7 +399,7 @@ export class ResumenSolesComponent implements OnInit {
       );
     }
   }
-  activarBotonUltimaCategoria(){
+  activarBotonUltimaCategoria() {
     var contador = 0;
     var botones = document.getElementById('allCategories') as HTMLDivElement;
     this.core.botonActivoDecor = 'TODO_CATEGORIAS';
@@ -352,7 +411,7 @@ export class ResumenSolesComponent implements OnInit {
     }); */
     this.destargetearBotonesTipologias();
   }
-  destargetearBotonesTipologias(){
+  destargetearBotonesTipologias() {
     var filtroTipologias: NodeListOf<HTMLInputElement> = document.querySelectorAll('.tipologia');
     filtroTipologias.forEach(element => {
       element.checked = false;

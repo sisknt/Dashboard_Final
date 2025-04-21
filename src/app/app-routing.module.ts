@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: '', component: VistaGeneralComponent },
   { path: 'tablas', component: ResumenSolesComponent },
   { path: 'stat1', component: StatsProductoComponent },
-  { path: 'grafico-general', component: GraficoSolesComponent },
+  { path: 'grafico-categoria', component: GraficoSolesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'productos', component: ProductosComponent },
   { path: 'console', component: ConsoleComponent },

@@ -1,0 +1,73 @@
+<button class="btn btn-secondary btn-sm boton-primario ms-auto" type="button" data-bs-toggle="modal"
+    data-bs-target="#HTML_modal_buscar_producto">
+    Seleccionar Producto
+</button>
+<div class="modal fade" id="HTML_modal_buscar_producto" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4">Productos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <input type="text" class="form-control" id="HTML_input_buscar_producto"
+                            placeholder="Busca un producto..." [(ngModel)]="Buscador" (input)="BuscarProducto()">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table border rounded">
+                            <thead>
+                                <tr>
+                                    <th scope="col">N°</th>
+                                    <th scope="col">Activar</th>
+                                    <th scope="col">SKU</th>
+                                    <th scope="col">Código Interno</th>
+                                    <th scope="col">Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="Radio; else CheckedProductos">
+                                <tr *ngFor="let producto of ProductosFiltrados; index as i">
+                                    <th>{{i+1}}</th>
+                                    <th>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="GrupoRadioButtonProductos"
+                                                name="HTML_input_group_productos" (change)="FiltrarRadioProductos(producto.sku)"
+                                                id="HTML_input_activar_producto{{producto.sku}}">
+                                        </div>
+                                    </th>
+                                    <td>{{producto.sku}}</td>
+                                    <td>{{producto.codigo_interno}}</td>
+                                    <td>{{producto.nombre}}</td>
+                                </tr>
+                            </tbody>
+                            <ng-template #CheckedProductos>
+                                <tbody>
+                                    <tr *ngFor="let producto of ProductosFiltrados; index as i">
+                                        <th>{{i+1}}</th>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="HTML_input_group_productos" (change)="SeleccionarProductos(producto.sku)"
+                                                    id="HTML_input_activar_producto{{producto.sku}}">
+                                            </div>
+                                        </th>
+                                        <td>{{producto.sku}}</td>
+                                        <td>{{producto.codigo_interno}}</td>
+                                        <td>{{producto.nombre}}</td>
+                                    </tr>
+                                </tbody>
+                            </ng-template>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="RetornarProductos()" data-bs-dismiss="modal">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -49,6 +49,7 @@ export class CoreService {
   semana_final_primera_carga_principal: number = 0;
 
   host: string = 'https://dashboard.ceramicaskantu.com';
+  // host: string = 'http://localhost:10000';
   /* NUEVO CODIGO */
   botonActivoDecor: string = 'TODO_CATEGORIAS';
   botonActivoKantu: string = 'TODO_CATEGORIAS';
@@ -62,6 +63,7 @@ export class CoreService {
   colores_categorias_eliminable: string[] = ["#614051", "#4aa201", "#019aa2", "#8f3d38", "#bd701f", "#335fbb", "#5300b0", "#7a5c3c", "#b21f57"];
   colores_categorias_estatico: string[] = ["#614051", "#4aa201", "#019aa2", "#8f3d38", "#bd701f", "#335fbb", "#5300b0", "#7a5c3c", "#b21f57"];
   ArrayDeProductosBuscar: string[] = [];
+  ArraySKUsFiltros: string[] = [];
   /* host: string = 'http://192.168.1.119:10200'; */
 
   ConvertirMesTexto(numeroMes: number) {
@@ -74,7 +76,7 @@ export class CoreService {
       "Junio",
       "Julio",
       "Agosto",
-      "Septiembre",
+      "Setiembre",
       "Octubre",
       "Noviembre",
       "Diciembre",
@@ -260,6 +262,11 @@ export class CoreService {
     const elementos: string[] = texto.split('+');
     return elementos.filter(elemento => elemento.trim() !== '');
   }
+  SimplificarSemanasANumeros(texto: string) {
+    const elemento1 = String(texto).split('. ')[1]
+    const elementoFinal = String(elemento1).split(' (')[0]
+    return elementoFinal;
+  }
   SimplificarSemanas(semana_inicial: string, semana_final: string) {
     var simplificacion_semana: string = `Sem. ${semana_inicial.split(' ')[1]} - ${semana_final.split(' ')[1]}`;
     return simplificacion_semana;
@@ -276,5 +283,14 @@ export class CoreService {
     var fecha_final: string = `${fechas.split(' al ')[1].split('-')[2]} ${this.ConvertirMesTexto(Number(fechas.split(' al ')[0].split('-')[1]))}`;
     var salida: string[] = [periodo.split(' (')[0], `${fecha_inicial} - ${fecha_final}`];;
     return salida;
+  }
+  ConvertirMayuscula(texto: string) {
+    if (typeof texto === 'string') {
+      var mayus = String(texto)
+      mayus = mayus.toUpperCase()
+      return mayus;
+    } else {
+      return '';
+    }
   }
 }

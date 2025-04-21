@@ -98,6 +98,7 @@ export class TableComponent implements OnInit {
   }
 
   GenerarTabla(inicial: number, final: number) {
+    console.log(`DEBUG INFO: -------- ${this.CORE.busqueda_actual}`);
     this.API.ObtenerVentasLimitado(this.year_actual, this.CORE.Empresa_Actual, this.CORE.Tienda_Actual, this.CORE.Categoria_actual, inicial, final, this.CORE.busqueda_actual, this.CORE.locales_url).subscribe(
       (data: any) => {
         this.DT_Ventas = [];

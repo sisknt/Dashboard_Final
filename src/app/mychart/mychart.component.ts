@@ -19,17 +19,6 @@ import { arrayData } from "./data-series";
 import { ApiService } from '../services/api.service';
 import { CoreService } from '../services/core.service';
 import { forkJoin, map } from 'rxjs';
-/* type ApexXAxis = {
-  type?: "category" | "datetime" | "numeric";
-  categories?: any;
-  labels?: {
-    style?: {
-      colors?: string | string[];
-      fontSize?: string;
-    };
-  };
-  position?: any;
-}; */
 var colors = [
   "#53CA43",
   "#A145FF",
@@ -154,75 +143,16 @@ export class MychartComponent implements OnInit {
       })
     }
   }
-  onCheckBoxChangeProductos(){
-    let inputValue = document.getElementById('InpAgregarProductos') as HTMLInputElement; 
-    let LblAlertProductosAgregadors = document.getElementById('LblAlertProductosAgregadors') as HTMLDivElement;
-    if (inputValue.value.trim() !== '') {
-      this.urlProducto.push(inputValue.value);
-    } else {
-      const index = this.urlProducto.indexOf(inputValue.value);
-      if (index !== -1) {
-        this.urlProducto.splice(index, 1);
-      }
-    }
-    this.urlProducto.forEach(url => {
-      this.ParametroProducto += `${url}+`
-      LblAlertProductosAgregadors.innerHTML = this.ParametroProducto;
+  async onProductosRetornados(productosSeleccionados: string[]) {
+    var texto: string = '';
+    this.ParametroProducto = '';
+    productosSeleccionados.forEach(url => {
+      texto += `${url}+`
     })
-    inputValue.value = '';
-    this.VerificarEstadoBtnAgregarProducto();
-    this.VerificarEstadoBtnGenerar();
+    this.ParametroProducto = texto.slice(0, -1)
+    this.GenerarPeticionApi();
   }
   InpAgregarProductos: string = 'inputAgregarProductos'
-  onInputKeyup(event?: KeyboardEvent){
-    var inputValue = (event?.target as HTMLInputElement).value;
-    let LblAlertProductosAgregadors = document.getElementById('LblAlertProductosAgregadors') as HTMLDivElement;
-    let producto: string = (event?.target as HTMLInputElement).value;
-    this.VerificarEstadoBtnAgregarProducto(producto)
-    if (event) {
-      if (event.key === 'Enter') {
-        this.ParametroProducto = '';
-        LblAlertProductosAgregadors.innerHTML = '';
-        if (producto !== '') {
-          if (!this.urlProducto.includes(producto)) {
-            this.urlProducto.push(producto);
-          }
-        } else {
-          const index = this.urlProducto.indexOf(producto);
-          if (index !== -1) {
-            this.urlProducto.splice(index, 1);
-          }
-        }
-        this.urlProducto.forEach(url => {
-          this.ParametroProducto += `${url}+`;
-          LblAlertProductosAgregadors.innerHTML = this.ParametroProducto;
-        });
-        this.selectedOption = '';
-        this.VerificarEstadoBtnAgregarProducto(inputValue);
-      }
-    } else {
-      LblAlertProductosAgregadors.innerHTML = '';
-      this.ParametroProducto = '';
-      if (this.selectedOption !== '') {
-        if (!this.urlProducto.includes(this.selectedOption)) {
-          this.urlProducto.push(this.selectedOption);
-        }
-      } else {
-        const index = this.urlProducto.indexOf(this.selectedOption)
-        if (index !== -1) {
-          this.urlProducto.splice(index, 1);
-        }
-      }
-      this.urlProducto.forEach(url => {
-        this.ParametroProducto += `${url}+`;
-        LblAlertProductosAgregadors.innerHTML = this.ParametroProducto;
-      });
-      this.selectedOption = '';
-      this.VerificarEstadoBtnAgregarProducto(inputValue);
-    }
-    this.VerificarEstadoBtnRestablecerProducto();
-    this.VerificarEstadoBtnGenerar();
-  }
   inputValue: string = '';
   DisposicionButtons: string = 'Activado';
   DisposicionGrafico: ChartType = 'bar';
@@ -252,7 +182,6 @@ export class MychartComponent implements OnInit {
   ParametroLocal: string = '';
   ParametroProducto: string = '';
   // Tipo
-  selectedOption: string = '';
   public TipoDeDato: string = '';
   constructor(private api: ApiService, public core: CoreService) {
     var self = this;
@@ -504,30 +433,31 @@ export class MychartComponent implements OnInit {
     this.GenerarPeticionApi();
     this.obtenerFiltros();
     this.VerificarEstadoBtnGenerar();
-    this.VerificarEstadoBtnAgregarProducto('');
-    this.VerificarEstadoBtnRestablecerProducto();
   }
+  Filtros: FiltroJson = {
+    cadenas: [],
+    categorias: [],
+    productos: [],
+    ubicaciones: [],
+  };
   obtenerFiltros(){
-    let Filtros: FiltroJson;
     this.api.ObtenerFiltrosComparativo(this.core.Empresa_Actual).subscribe((http: any)=>{
-      Filtros = http;
-      Filtros.cadenas.forEach(cadena => {
+      this.Filtros = http;
+      this.Filtros.cadenas.forEach(cadena => {
         this.urlCadena.push(cadena);
         this.FiltroCadena.push(cadena);
       });
-      Filtros.categorias.forEach(categoria => {
+      this.Filtros.categorias.forEach(categoria => {
         this.urlCategoria.push(categoria);
         this.FiltroCategoria.push(categoria);
       });
-      Filtros.zonas.forEach(zona => {
-        this.urlZona.push(zona);
-        this.FiltroZona.push(zona);
-      });
-      Filtros.locales_tienda.forEach(local => {
-        this.urlLocal.push(local)
-        this.FiltroLocal.push(local)
+      this.Filtros.ubicaciones.forEach(ubicacion => {
+        this.urlZona.push(ubicacion.zona)
+        this.FiltroZona.push(ubicacion.zona)
+        this.urlLocal.push(ubicacion.codigo)
+        this.FiltroLocal.push(ubicacion.local_tienda)
       })
-      Filtros.productos.forEach(producto => {
+      this.Filtros.productos.forEach(producto => {
         this.FiltroSku.push(producto.sku);
         this.FiltroCodigo.push(producto.codigo_interno);
         this.FiltroDescripcion.push(producto.nombre);
@@ -538,23 +468,7 @@ export class MychartComponent implements OnInit {
         };
         this.MiDataListProductos.push(miproducto)
       });
-      this.FiltroDescripcion.forEach(uni => {
-        this.DataListProductos.push(uni)
-        if (!this.DataListProductos.includes(uni)) {
-        }
-      });
-      this.FiltroSku.forEach(uni => {
-        this.DataListProductos.push(uni);
-        if (!this.DataListProductos.includes(uni)) {
-        }
-      })
-      this.FiltroCodigo.forEach(uni => {
-        this.DataListProductos.push(uni)
-        if (!this.DataListProductos.includes(uni)) {
-        }
-      });
     });
-    console.log(this.DataListProductos)
   }
   invertirArray(array: string[]): string[] {
     const longitud = array.length;
@@ -778,39 +692,11 @@ export class MychartComponent implements OnInit {
   Comparativo: JsonComparativo[] = [];
   GenerarPeticionApi() {
     this.chartOptions.series = [];
-    this.BuscarProductos();
     this.VerificarParametros();
-    console.log(this.ParametroZona);
-    this.api.ObtenerComparativaAnual(this.core.Empresa_Actual, this.ParametroCadena, this.ParametroCategoria, this.ParametroZona, this.ParametroProducto).subscribe((data: any) => {
+    this.api.ObtenerComparativaAnual(this.core.Empresa_Actual, this.ParametroCadena, this.ParametroCategoria, this.ParametroLocal, this.ParametroProducto).subscribe((data: any) => {
       this.Comparativo = data["comparativo"];
       this.updateSeries(this.TipoDeDato)
     });
-  }
-  BuscarProductos() {
-    const ArrayProductos: string[] = this.core.SepararElementosDesdeTexto(this.ParametroProducto);
-    const ParametroSKU: string[] = [];
-    this.MiDataListProductos.forEach(producto => {
-      if (ArrayProductos.includes(producto.sku) || ArrayProductos.includes(producto.codigo_interno) || ArrayProductos.includes(producto.nombre)) {
-        if (!ParametroSKU.includes(producto.sku)) {
-          ParametroSKU.push(producto.sku)
-        }
-      }
-    });
-    this.ParametroProducto = '';
-    ParametroSKU.forEach(url => {
-      this.ParametroProducto += `${url}+`;
-    });
-    this.ParametroProducto = this.ParametroProducto.slice(0, -1);
-  }
-  LimpiarParametroProductos(){
-    var InpAgregarProductos = document.getElementById('InpAgregarProductos') as HTMLButtonElement;
-    var LblAlertProductosAgregadors = document.getElementById('LblAlertProductosAgregadors') as HTMLDivElement;
-    InpAgregarProductos.value = '';
-    this.ParametroProducto = '';
-    this.urlProducto = [];
-    LblAlertProductosAgregadors.innerHTML = 'Click en "Agregar" para añadir productos a buscar...';
-    this.VerificarEstadoBtnRestablecerProducto();
-    this.VerificarEstadoBtnGenerar();
   }
   VerificarEstadoBtnGenerar(){
     const BtnGenerar = document.getElementById('BtnGenerar') as HTMLButtonElement;
@@ -820,28 +706,11 @@ export class MychartComponent implements OnInit {
       BtnGenerar.setAttribute('disabled', 'true');
     }
   }
-  VerificarEstadoBtnAgregarProducto(texto?: string){
-    const BtnAgregarProducto = document.getElementById('BtnAgregarProducto') as HTMLButtonElement;
-    if (texto !== '') {
-      BtnAgregarProducto.removeAttribute('disabled')
-    } else {
-      BtnAgregarProducto.setAttribute('disabled', 'true');
-    }
-  }
-  VerificarEstadoBtnRestablecerProducto(){
-    const BtnRestablecerProducto = document.getElementById('BtnRestablecerProducto') as HTMLButtonElement;
-    if (this.urlProducto.length > 0) {
-      BtnRestablecerProducto.removeAttribute('disabled')
-    } else {
-      BtnRestablecerProducto.setAttribute('disabled', 'true');
-    }
-  }
   cambiarParametroCadena(cadena: string){
     this.ParametroCadena = cadena.toUpperCase();
     this.VerificarEstadoBtnGenerar();
   }
   VerificarParametros() {
-    console.log(this.ParametroLocal)
     if (this.ParametroCadena === '') {
       this.ParametroCadena = 'TODAS_CADENAS';
     }
@@ -857,9 +726,6 @@ export class MychartComponent implements OnInit {
     if (this.ParametroProducto === '') {
       this.ParametroProducto = 'TODOS_SKUS';
     }
-  }
-  RecolectarDescripcion(){
-    return "Esto es un texto"
   }
 }
 interface JsonComparativo {
@@ -892,9 +758,14 @@ interface Quarter {
 interface FiltroJson {
   cadenas: string[];
   categorias: string[];
-  zonas: string[];
-  locales_tienda: string[];
   productos: FiltroProducto[];
+  ubicaciones: ubicaciones[];
+}
+interface ubicaciones {
+  cadena: string;
+  codigo: string;
+  local_tienda: string;
+  zona: string;
 }
 interface FiltroProducto {
   sku: string;

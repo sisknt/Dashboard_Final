@@ -98,8 +98,8 @@ export class grafics {
             },
         };
 
-        var chart = new ApexCharts(document.querySelector("#grafico_estadistica_producto_anual"), options);
-        chart.render();
+        // var chart = new ApexCharts(document.querySelector("#grafico_estadistica_producto_anual"), options);
+        // chart.render();
     }
 
     sparkline_resumen_porcentaje_tiendas(P_yaxis: number[], P_xaxis: string[]) {

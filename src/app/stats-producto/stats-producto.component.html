@@ -1,41 +1,132 @@
 <div class="contenedor">
-    <div class="row">
-        <div class="col">
-            <div class="d-flex">
-                <h2 class="titulo-main">Estadística de Productos</h2>
-                <button class="btn btn-primary btn-sm boton-primario ms-auto" type="button" data-bs-toggle="modal"
-                    data-bs-target="#HTML_modal_buscar_producto">Seleccionar
-                    Producto</button>
-                <div class="ms-3"></div>
-                <div class="mini-card-sku d-flex justify-content-center align-items-center">
-                    <h4 class="m-auto">111983</h4>
-                </div>
-                <div class="ms-3"></div>
-                <div class="mini-card-producto d-flex justify-content-center align-items-center">
-                    <h5 class="m-auto">DECOR BORDE CUADRADO 10MM ALUMINIO BRILLANTE</h5>
-                </div>
-                <div class="ms-3"></div>
-                <button class="btn btn-primary btn-sm boton-primario" type="button">Filtros</button>
-                <div class="ms-3"></div>
-                <button class="btn btn-primary btn-sm boton-primario" type="button"
-                    (click)="actualizar_grafico()">Actualizar</button>
-                <div class="ms-3"></div>
-                <button class="btn btn-primary btn-sm boton-primario" type="button"
-                    id="HTML_btn_mostrar_ocultar_coordenada" (click)="mostrar_ocultar_xaxis()">Mostrar
-                    Coordenadas</button>
+    <div class="row gap-3">
+        <div class="col-auto">
+            <div class="justify-content-center align-items-center bg-white rounded p-2">
+                <h4 class="m-auto" *ngIf="Producto[0]?.sku">{{Producto[0].sku}}</h4>
             </div>
         </div>
+        <div class="col-auto">
+            <div class="mini-card-producto justify-content-center align-items-center bg-white rounded p-2">
+                <h4 class="m-auto" *ngIf="Producto[0]?.sku">{{Producto[0].cadena}}</h4>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="justify-content-center align-items-center bg-white rounded p-2">
+                <h4 class="m-auto">{{YearActual}}</h4>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="mini-card-producto justify-content-center align-items-center bg-white rounded p-2">
+                <h4 class="m-auto" *ngIf="Producto[0]?.sku; else ProductoNoEncontrado">{{Producto[0].descripcion}}</h4>
+                <ng-template #ProductoNoEncontrado>
+                    <h4 class="m-auto">Este producto no tiene información para mostrar</h4>
+                </ng-template>
+            </div>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#HTML_modal_filtros">Filtros</button>
+        </div>
+        <div class="col-auto">
+            <app-datalist [ProductosRecibidos]="this.Filtros.productos" [Radio]="true"
+                (ProductosRetornados)="onProductosRetornados($event)">
+            </app-datalist>
+        </div>
+        <!-- <div class="col-auto">
+            <div class="btn-group btn-group-sm" id="GraficsRadioConfiguracionTypeDato">
+                <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked>
+                <label class="btn btn-outline-secondary" for="InpTipoDatoSoles">En Soles</label>
+                <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoPiezas">
+                <label class="btn btn-outline-secondary" for="InpTipoDatoPiezas">En Piezas</label>
+            </div>
+        </div> -->
     </div>
-    <div class="row">
+    <div class="row mt-5">
         <div class="col">
             <div class="contenedor-grafico-stat-producto">
-                <div id="grafico_estadistica_producto_anual"></div>
-                <div class="ocultar-mostrar-xaxis" id="HTML_mostrar_xaxis"></div>
-                <div class="ocultar-mostrar-yaxis" id="HTML_mostrar_yaxis"></div>
+                <!-- <div id="grafico_estadistica_producto_anual"></div> -->
+                <div id="grafico_estadistica_producto_anual">
+                    <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!"
+                        [dataLabels]="chartOptions.dataLabels!" [plotOptions]="chartOptions.plotOptions!"
+                        [yaxis]="chartOptions.yaxis!" [xaxis]="chartOptions.xaxis!" [grid]="chartOptions.grid!"
+                        [subtitle]="chartOptions.subtitle!" [colors]="chartOptions.colors!"
+                        [states]="chartOptions.states!" [title]="chartOptions.title!" [legend]="chartOptions.legend!"
+                        [tooltip]="chartOptions.tooltip!" [noData]="chartOptions.noData!"
+                        [stroke]="chartOptions.stroke!" [markers]="chartOptions.markers!" [fill]="chartOptions.fill!">
+                    </apx-chart>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-3 text-center">
+        <div class="col-6">
+            <div class="card mb-3 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">
+                        Total Vendido (Valores redondeados)
+                        <span type="button" class="text-secondary fs-5" data-bs-toggle="tooltip" 
+                            title="Ejemplo de valor redondeado:    279.45645 --> 279">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">
+                        S/. {{this.sumaTotalProductoRedondeado}}
+                        <small class="text-body-secondary fw-light">/anual</small>
+                    </h3>
+                </div>
+            </div>
+            <div class="card mb-3 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">
+                        Total Vendido (Valores sin redondear)
+                        <span type="button" class="text-secondary fs-5" data-bs-toggle="tooltip" 
+                            title="Ejemplo de valor sin redondear:    279.45645 --> 279.45645">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title pricing-card-title">
+                        S/. {{this.sumaTotalProductoPreciso}}
+                        <small class="text-body-secondary fw-light">/anual</small>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <table class="table text-start">
+                <tbody *ngIf="this.Producto[0]">
+                    <tr>
+                        <th scope="row" class="text-start">Descripción</th>
+                        <td>{{this.Producto[0].descripcion}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Código interno</th>
+                        <td>{{this.Producto[0].codigo_interno}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Categoría</th>
+                        <td>{{this.Producto[0].categoria}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Sku</th>
+                        <td>{{this.Producto[0].sku}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Cadena</th>
+                        <td>{{this.Producto[0].cadena}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Año</th>
+                        <td>{{YearActual}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- <div class="row">
         <div class="col">
             <h3 class="titulo-secondary">Cifras generales</h3>
         </div>
@@ -133,48 +224,89 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="HTML_modal_buscar_producto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal Filtros -->
+<div class="modal fade" id="HTML_modal_filtros" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title fs-5" id="HTML_modal_filtros_label"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
             <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="d-flex ms-auto">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h4">Años</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto">
+                                <select class="form-select form-selec-sm" id="InpYear"
+                                    (change)="onSelectChangeYears($event)">
+                                    <option *ngFor="let year of FiltroYears" value="{{year}}">{{year}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label h6">Cadenas</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3" *ngFor="let cadena of Filtros.cadenas">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="radio{{cadena}}" type="checkbox"
+                                        name="radioCadenas" checked (change)="onCheckBoxChangeCadenas($event, cadena)">
+                                    <label class="form-check-label" for="radio{{cadena}}">{{cadena}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="my-3">
+                                    <label class="form-label h4">Locales</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="checkLocales" type="checkbox"
+                                        (change)="DeseleccionarCheckBoxLocales()">
+                                    <label class="form-check-label" for="checkLocales">Deseleccionar todos</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="ContenedorLocales">
+                            <div class="col-3" *ngFor="let local of this.Filtros.ubicaciones">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="check{{local.codigo}}" type="checkbox"
+                                        [checked]="CheckBoxLocales"
+                                        (change)="onCheckboxChangeLocales($event, local.codigo)">
+                                    <label class="form-check-label fs-7"
+                                        for="check{{local.codigo}}">{{local.local_tienda}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-sm btn-primary" (click)="GenerarPeticionApi()" data-bs-dismiss="modal">Generar Estadística</button>
             </div>
         </div>
     </div>

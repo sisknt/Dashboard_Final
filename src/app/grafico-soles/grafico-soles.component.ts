@@ -18,17 +18,22 @@ import {
   ChartType,
   ApexStroke,
   ApexXAxis,
+  ApexMarkers,
 } from "ng-apexcharts";
 var colors = [
   "#0d6efd",
-  "#8540f5",
-  "#6610f2",
-  "#6f42c1",
-  "#d63384",
-  "#ffc107",
+  "#00A3FF",
+  "#6610F2",
+  "#9E68FF",
+  "#D63384",
+  "#FFC107",
   "#198754",
-  "#1aa179",
+  "#00CB8F",
   "#087990",
+  "#FF32C6",
+  "#B0FF07",
+  "#3CDFC2",
+  "#B3B3B3",
 ];
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -47,7 +52,9 @@ export type ChartOptions = {
   noData: ApexNoData;
   stroke: ApexStroke;
   categories: string[];
+  makers: ApexMarkers;
 };
+
 declare global {
   interface Window {
     Apex: any;
@@ -88,7 +95,7 @@ export class GraficoSolesComponent implements OnInit {
       ],
       chart: {
         type: "bar",
-        height: 400,
+        height: 320,
         width: "100%",
         events: {
           dataPointSelection: (opts: any, chart: any, config: any) => {
@@ -104,71 +111,270 @@ export class GraficoSolesComponent implements OnInit {
       },
       plotOptions: {
         bar: {
-          horizontal: true
+          horizontal: true,
+          dataLabels: {
+            position: 'bottom'
+          }
         }
       },
       dataLabels: {
-        enabled: true
+        enabled: true,
+        textAnchor: "start",
+        style: {
+          colors: ["#3D3D3D"],
+          fontSize: '16px',
+          fontFamily: 'Roboto'
+        },
+        formatter: function (val, opt) {
+          // return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
+          return core.ComaMiles(Number(val));
+        },
+        offsetX: 0,
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 4,
+          color: '#000',
+          opacity: 0.2
+        }
+      },
+      title: {
+        text: "Actividad de las categorías en el año",
+        align: "center",
+        floating: true
       },
       legend: {
         position: 'top',
         horizontalAlign: 'left'
       },
+      tooltip: {
+        enabled: false,
+      },
+      makers: {
+        onClick: function (e) {
+          console.log("logg")
+        }
+      }
     };
     this.chartQuarterOptions = {
       series: this.totales_quarter,
       chart: {
         id: "barQuarter",
-        height: 600,
+        height: 420,
         width: "100%",
-        type: "bar",
-        stacked: true
+        type: this.DisposicionGrafico,
+        toolbar: {
+          show: true,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true,
+          },
+          export: {
+            csv: {
+              filename: undefined,
+              columnDelimiter: ',',
+              headerCategory: 'category',
+              headerValue: 'value',
+            },
+            svg: {
+              filename: undefined,
+            },
+            png: {
+              filename: undefined,
+            }
+          },
+          autoSelected: 'zoom'
+        },
       },
       plotOptions: {
         bar: {
           columnWidth: "98%",
-          horizontal: false
+          horizontal: false,
+          dataLabels: {
+            position: "top" // top, center, bottom
+          }
         }
       },
-      legend: {
-        show: false
+      stroke: {
+        show: true,
       },
-      grid: {
-        yaxis: {
-          lines: {
-            show: false
-          }
+      dataLabels: {
+        enabled: true,
+        formatter: function (val, opt) {
+          // return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
+          return core.ComaMiles(Number(val));
         },
-        xaxis: {
-          lines: {
-            show: true
-          }
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#304758"]
         }
-      },
-      yaxis: {
-        labels: {
-          show: false
-        }
-      },
-      title: {
-        text: "Quarterly Results",
-        offsetX: 10
       },
       tooltip: {
         x: {
-          formatter: function (val: any, opts: any) {
-            return opts.w.globals.seriesNames[opts.seriesIndex];
+          formatter: function (val: any) {
+            return val
           }
         },
         y: {
-          title: {
+          formatter: function (val: any) {
+            return Intl.NumberFormat('es-MX').format(Number(val.toFixed(2)))
+          },
+          /* title: {
             formatter: function (val: any, opts: any) {
               return opts.w.globals.labels[opts.dataPointIndex];
             }
+          } */
+        }
+      },
+      xaxis: {
+        labels: {
+          show: true,
+          formatter: function (val: any) {
+            return core.SimplificarSemanasANumeros(String(val))
           }
         }
-      }
+      },
+      title: {
+        text: `Actividad semanal de la categoría en el año`,
+        floating: true,
+        offsetY: 0,
+        align: "center",
+        style: {
+          color: "#444"
+        }
+      },
+      noData: {
+        text: "(Click sobre la barra anual para añadir datos)"
+      },
     };
+  }
+  DisposicionGrafico: ChartType = 'bar';
+  cambiarGrafico(grafico: ChartType) {
+    switch (grafico) {
+      case 'bar':
+        this.DisposicionGrafico = grafico;
+        this.chartQuarterOptions.chart = {
+          id: "barQuarter",
+          height: 420,
+          width: "100%",
+          type: this.DisposicionGrafico,
+          toolbar: {
+            show: true,
+            tools: {
+              download: true,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true,
+            },
+            export: {
+              csv: {
+                filename: undefined,
+                columnDelimiter: ',',
+                headerCategory: 'category',
+                headerValue: 'value',
+              },
+              svg: {
+                filename: undefined,
+              },
+              png: {
+                filename: undefined,
+              }
+            },
+            autoSelected: 'zoom'
+          },
+        };
+        break;
+      case 'line':
+        this.DisposicionGrafico = grafico;
+        this.chartQuarterOptions.chart = {
+          id: "barQuarter",
+          height: 420,
+          width: "100%",
+          type: this.DisposicionGrafico,
+          toolbar: {
+            show: true,
+            tools: {
+              download: true,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true,
+            },
+            export: {
+              csv: {
+                filename: undefined,
+                columnDelimiter: ',',
+                headerCategory: 'category',
+                headerValue: 'value',
+              },
+              svg: {
+                filename: undefined,
+              },
+              png: {
+                filename: undefined,
+              }
+            },
+            autoSelected: 'zoom'
+          },
+        };
+        this.chartQuarterOptions.stroke = {
+          show: true,
+          curve: 'straight'
+        }
+        break;
+      case 'area':
+        this.DisposicionGrafico = grafico;
+        this.chartQuarterOptions.chart = {
+          id: "barQuarter",
+          height: 420,
+          width: "100%",
+          type: this.DisposicionGrafico,
+          toolbar: {
+            show: true,
+            tools: {
+              download: true,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true,
+            },
+            export: {
+              csv: {
+                filename: undefined,
+                columnDelimiter: ',',
+                headerCategory: 'category',
+                headerValue: 'value',
+              },
+              svg: {
+                filename: undefined,
+              },
+              png: {
+                filename: undefined,
+              }
+            },
+            autoSelected: 'zoom'
+          },
+        };
+        this.chartQuarterOptions.stroke = {
+          curve: 'smooth'
+        }
+        break;
+      default: break;
+    }
   }
   urlCadena: string[] = [];
   urlCategoria: string[] = [];
@@ -211,7 +417,7 @@ export class GraficoSolesComponent implements OnInit {
     try {
       this.FiltroYears = await this.api.Fetch_ObtenerYears(this.core.Empresa_Actual)
       console.log('obteneniendo semanas')
-      this.core.Year_Actual = this.FiltroYears[this.FiltroYears.length-1]
+      this.core.Year_Actual = this.FiltroYears[this.FiltroYears.length - 1]
       await this.api.ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, 'TODAS_TIENDAS').subscribe(
         (response: any) => {
           console.log(response)
@@ -227,15 +433,23 @@ export class GraficoSolesComponent implements OnInit {
   async ngOnInit() {
     this.obtenerFiltros()
     await this.obtenerYears()
-    var data = await this.api.Fetch_ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, 1, 54, "TODOS_LOCALES")
+    this.core.semana_inicial = 1;
+    this.core.semana_final = 54;
+    var data = await this.api.Fetch_ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, this.core.semana_inicial, this.core.semana_final, "TODOS_LOCALES")
     this.totales_semana = data;
     await this.iniciar_grafico_totales(this.totales_semana);
     this.UpdateSeries();
   }
   async iniciar_grafico_totales(semanas: semana[]) {
+    this.categorias = []
     semanas.forEach(semana => {
       this.categorias = Array.from(new Set(semana.categorias.map(categoria => categoria.categoria)))
     });
+    this.totales_ejes.cantidad = []
+    this.totales_ejes.soles = []
+    console.log("iniciar_grafico_totales")
+    console.log(this.totales_ejes.cantidad)
+    console.log(this.totales_ejes.soles)
     this.categorias.forEach((categoria: string, index: number) => {
       var eje: eje = {
         x: categoria,
@@ -243,16 +457,40 @@ export class GraficoSolesComponent implements OnInit {
         fillColor: colors[index]
       }
       this.totales_ejes.cantidad.push(eje)
+    });
+    this.categorias.forEach((categoria: string, index: number) => {
+      var eje: eje = {
+        x: categoria,
+        y: 0,
+        fillColor: colors[index]
+      }
       this.totales_ejes.soles.push(eje)
     });
-    this.aplicarSumatoriaCategorizado(semanas, this.totales_ejes)
+    this.aplicarSumatoriaCategorizado(semanas)
   }
   UpdateSeries() {
     this.chartOptions.series = [
       {
-        data: this.totales_ejes.cantidad
+        data: this.totales_ejes.soles
       }
     ]
+  }
+  CambiarSeries(tipo: string) {
+    if (tipo === 'S') {
+      this.TipoDeDato = 'SOLES'
+      this.chartOptions.series = [
+        {
+          data: this.totales_ejes.soles
+        }
+      ]
+    } else {
+      this.TipoDeDato = 'PIEZAS'
+      this.chartOptions.series = [
+        {
+          data: this.totales_ejes.cantidad
+        }
+      ]
+    }
   }
   async GenerarPeticionApi() {
     this.chartOptions.series = [];
@@ -270,17 +508,23 @@ export class GraficoSolesComponent implements OnInit {
         icon: "question"
       });
     }
-    
+  }
+  Filtros: FiltroJson = {
+    cadenas: [],
+    categorias: [],
+    productos: [],
+    ubicaciones: [],
   }
   async obtenerFiltros() {
-    var Filtros: FiltroJson = await this.api.Fetch_ObtenerFiltrosComparativo(this.core.Empresa_Actual)
-    console.log(Filtros)
-    this.urlCadena, this.FiltroCadena = Filtros.cadenas.map(cadena => cadena);
-    this.urlZona, this.FiltroZona = Filtros.zonas.map(zona => zona);
-    this.urlLocal, this.FiltroLocal = Filtros.locales_tienda.map(local => local)
-    this.FiltroSku = Filtros.productos.map(sku => !this.FiltroSku.includes(sku.sku) ? sku.sku : "");
-    this.FiltroCodigo = Filtros.productos.map(codigo => !this.FiltroCodigo.includes(codigo.codigo_interno) ? codigo.codigo_interno : "null");
-    this.FiltroDescripcion = Filtros.productos.map(nombre => !this.FiltroDescripcion.includes(nombre.nombre) ? nombre.nombre : "");
+    this.Filtros = await this.api.Fetch_ObtenerFiltrosComparativo(this.core.Empresa_Actual)
+    this.urlCadena, this.FiltroCadena = this.Filtros.cadenas.map(cadena => cadena);
+    this.urlLocal = this.Filtros.ubicaciones.map(ubicacion => ubicacion.codigo)
+    this.FiltroLocal = this.Filtros.ubicaciones.map(ubicacion => ubicacion.local_tienda)
+    this.urlZona = this.Filtros.ubicaciones.map(ubicacion => ubicacion.codigo)
+    this.FiltroLocal = this.Filtros.ubicaciones.map(ubicacion => ubicacion.zona)
+    this.FiltroSku = this.Filtros.productos.map(sku => !this.FiltroSku.includes(sku.sku) ? sku.sku : "");
+    this.FiltroCodigo = this.Filtros.productos.map(codigo => !this.FiltroCodigo.includes(codigo.codigo_interno) ? codigo.codigo_interno : "null");
+    this.FiltroDescripcion = this.Filtros.productos.map(nombre => !this.FiltroDescripcion.includes(nombre.nombre) ? nombre.nombre : "");
   }
   async actualizarQuarter(data: eje, semanas: semana[]) {
     var quarter: quarter = {
@@ -294,8 +538,8 @@ export class GraficoSolesComponent implements OnInit {
         semana.categorias.forEach(categoria => {
           if (categoria.categoria === data.x) {
             var eje: eje = {
-              x: semana.semana,
-              y: Number(categoria.monto.toFixed(2)),
+              x: semana.periodo,
+              y: this.TipoDeDato === 'SOLES' ? Number(categoria.monto.toFixed(2)) : categoria.cantidad,
               fillColor: data.fillColor
             }
             quarter.data.push(eje)
@@ -326,25 +570,33 @@ export class GraficoSolesComponent implements OnInit {
       window.dispatchEvent(new Event('resize'))
     }, 100);
   }
-  aplicarSumatoriaCategorizado(semanas: semana[], totales_ejes: ejes) {
+  aplicarSumatoriaCategorizado(semanas: semana[]) {
     // Funcion para generar la sumatoria del primer grafico
     semanas.forEach(semana => {
       semana.categorias.forEach(categoria => {
-        var sumatoria: number = 0;
-        totales_ejes.soles.forEach(eje => {
+        this.totales_ejes.soles.forEach(eje => {
           if (eje.x === categoria.categoria) {
-            sumatoria += categoria.monto
+            eje.y += categoria.monto
           }
         })
-        totales_ejes.soles.forEach(eje => {
-          if (eje.x === categoria.categoria) {
-            eje.y = Number(sumatoria.toFixed(2))
-          }
-        });
       })
     });
+    semanas.forEach(semana => {
+      semana.categorias.forEach(categoria => {
+        this.totales_ejes.cantidad.forEach(eje => {
+          if (eje.x === categoria.categoria) {
+            eje.y += categoria.cantidad
+          }
+        })
+      })
+    });
+    console.log("aplicarSumatoriaCategorizado");
+    console.log(this.totales_ejes.cantidad === this.totales_ejes.soles)
+    console.log(this.totales_ejes.cantidad)
+    console.log(this.totales_ejes.soles)
+    this.UpdateSeries();
   }
-  async onSelectChangeYears(event: Event){
+  async onSelectChangeYears(event: Event) {
     this.core.Year_Actual = (event.target as HTMLSelectElement).value;
     await this.api.ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, 'TODAS_TIENDAS').subscribe(
       (response: any) => {
@@ -352,7 +604,7 @@ export class GraficoSolesComponent implements OnInit {
       }
     );
   }
-  
+
   DeseleccionarCheckBoxLocales() {
     if (this.CheckBoxLocales == true) {
       this.urlLocal = []
@@ -532,9 +784,14 @@ interface ejes {
 interface FiltroJson {
   cadenas: string[];
   categorias: string[];
-  zonas: string[];
-  locales_tienda: string[];
+  ubicaciones: ubicaciones[];
   productos: FiltroProducto[];
+}
+interface ubicaciones {
+  cadena: string;
+  codigo: string;
+  local_tienda: string;
+  zona: string;
 }
 interface FiltroProducto {
   sku: string;

@@ -3,6 +3,7 @@
         <div class="col-12">
             <button class="dropdown btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="modal"
             data-bs-target="#exampleModal" id="BtnFiltros">Filtros</button>
+            <app-datalist class="ms-2" [ProductosRecibidos]="this.MiDataListProductos" (ProductosRetornados)="onProductosRetornados($event)"></app-datalist>
             <div class="btn-group btn-group-sm mx-2" id="GraficsRadioConfiguracionTypeDato">
                 <input class="btn-check" type="radio" name="radioTypeDato" id="InpTipoDatoSoles" checked
                     (click)="this.TipoDato = 'SOLES'">
@@ -250,40 +251,11 @@
                             </div>
                         </div>
                         <div class="row" id="ContenedorCategorias">
-                            <div class="col-3" *ngFor="let url of urlCategoria">
+                            <div class="col-3" *ngFor="let categoria of FiltroCategoria">
                                 <div class="form-check">
-                                    <input class="form-check-input" id="check{{url}}" type="checkbox" checked>
-                                    <label class="form-check-label" for="check{{url}}">{{url}}</label>
+                                    <input class="form-check-input" id="check{{categoria}}" type="checkbox" checked (change)="onCheckboxChangeCategorias($event, categoria)">
+                                    <label class="form-check-label" for="check{{categoria}}">{{categoria}}</label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row my-2">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="my-3">
-                                    <label class="form-label h6">Productos</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <button class="btn btn-secondary" type="button" id="BtnRestablecerProducto" (click)="LimpiarParametroProductos()">Restablecer</button>
-                                    <input type="text" class="form-control" placeholder="Escriba para buscar..." [(ngModel)]="selectedOption" list="MyDATA" [id]="InpAgregarProductos" (keyup)="onInputKeyup($event)">
-                                    <button class="btn btn-secondary" type="button" id="BtnAgregarProducto" (click)="onInputKeyup()">Agregar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row my-2">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="alert alert-info" role="alert" id="LblAlertProductosAgregadors">Click en "Agregar" para añadir productos a buscar...</div>
                             </div>
                         </div>
                     </div>

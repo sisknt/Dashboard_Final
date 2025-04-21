@@ -9,7 +9,6 @@ export class ApiService {
   constructor(
     private http: HttpClient
   ) { }
-  
   host: string = 'https://odoo17.ceramicaskantu.com';
   //host: string = 'http://192.168.1.117:8069';
 
@@ -102,13 +101,45 @@ export class ApiService {
     return this.http.get(`${this.host}/tabla/comparativa/diferencia/porcentual/${empresa}/${semana_inicial}/${semana_final}`);
   }
 
-  ObtenerComparativoSemanalYear(empresa: string, cadena: string, semana_inicial: number, semana_final: number) {
-    console.log(`${this.host}/tabla/comparativa/locales/${empresa}/${cadena}/${semana_inicial}/${semana_final}`);
-    return this.http.get(`${this.host}/tabla/comparativa/locales/${empresa}/${cadena}/${semana_inicial}/${semana_final}`);
+  ObtenerComparativoSemanalYear(empresa: string, categoria: string,cadena: string, semana_inicial: number, semana_final: number, producto: string) {
+    console.log(`${this.host}/tabla/comparativa/locales/${empresa}/${categoria}/${cadena}/${semana_inicial}/${semana_final}/${producto}`);
+    return this.http.get(`${this.host}/tabla/comparativa/locales/${empresa}/${categoria}/${cadena}/${semana_inicial}/${semana_final}/${producto}`);
   }
   ObtenerComparativoMensualYear(empresa: string, year: string, mes_inicial: string, mes_final: string, locales: string) {
     console.log(`${this.host}/tabla/ventas/meses/${empresa}/${year}/${mes_inicial}/${mes_final}/${locales}`);
     return this.http.get(`${this.host}/tabla/ventas/meses/${empresa}/${year}/${mes_inicial}/${mes_final}/${locales}`);
+  }
+  async ObtenerEstadisticasProductos(year: string, empresa: string, cadena: string[], local: string[], producto: string[]) {
+    var jrpc = {
+      jsonrpc: "2.0",
+      params: {
+        year: year,
+        empresa: empresa,
+        cadenas: cadena,
+        locales: local,
+        productos: producto
+      },
+      id: 5
+    }
+    var post = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(jrpc),
+    };
+    console.log(jrpc)
+    try {
+      console.log(`${this.host}/consultar/informacion/varios`)
+      const response = await fetch(`${this.host}/consultar/informacion/varios`, post)
+      if (!response.ok) {
+        throw new Error('Error en la solicitud Fetch' + response.statusText)
+      }
+      const result = await response.json();
+      return result["result"]["productos"];
+    } catch (error) {
+      console.log('Error:', error)
+    }
   }
   // fetch
   async Fetch_ObtenerSemanas(year: string, empresa: string, inicio: number, fin: number, locales: string): Promise<any> {
@@ -119,9 +150,7 @@ export class ApiService {
         throw new Error('Network response was not ok' + response.statusText);
       }
       const data = await response.json();
-      console.log(data)
       return data["totales_semanales"];
-      
     } catch (error) {
       console.error('Error posting data:', error);
       throw error;
@@ -178,11 +207,10 @@ export class ApiService {
         params: {
             mes: 5,
             year: 2024,
-            token: '##$$$%OdooKanTUDFcvfGEEERwesASDFSSS$%&1123##sS',
       },
       id: 5
     };
-    var url = "https://odootest.ceramicaskantu.com/packing/list/costeo"
+    var url = "https://odootest.ceramicaskantu.com/obtener/resumen/insumos"
     try {
       const response = await fetch(`${url}`, {
         method: 'POST',

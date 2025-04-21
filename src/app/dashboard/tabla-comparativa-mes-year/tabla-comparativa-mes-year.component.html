@@ -36,7 +36,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>PROMART</td>
+                                    <td class="sticky">PROMART</td>
                                     <ng-container *ngFor="let mes of Meses; index as i">
                                         <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_anterior.promart[i].monto)}}</td>
                                         <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_actual.promart[i].monto)}}</td>
@@ -44,7 +44,7 @@
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td>SODIMAC</td>
+                                    <td class="sticky">SODIMAC</td>
                                     <ng-container *ngFor="let mes of Meses; index as i">
                                         <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_anterior.sodimac[i].monto)}}</td>
                                         <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_actual.sodimac[i].monto)}}</td>
@@ -52,7 +52,7 @@
                                     </ng-container>
                                 </tr>
                                 <tr>
-                                    <td>MAESTRO</td>
+                                    <td class="sticky">MAESTRO</td>
                                     <ng-container *ngFor="let mes of Meses; index as i">
                                         <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_anterior.maestro[i].monto)}}</td>
                                         <td class="text-end">{{this.core.ComaMiles(ComparativoVentas!.year_actual.maestro[i].monto)}}</td>
@@ -62,7 +62,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Total</th>
+                                    <th class="sticky">Total</th>
                                     <ng-container *ngFor="let mes of Meses; index as i">
                                         <th class="text-end">{{this.core.ComaMiles(TotalesDeVentasAnterior[i])}}</th>
                                         <th class="text-end">{{this.core.ComaMiles(TotalesDeVentasActual[i])}}</th>
@@ -281,11 +281,11 @@
                             </div>
                         </div>
                         <div class="row" id="ContenedorLocales">
-                            <div class="col-3" *ngFor="let local of FiltroLocales">
+                            <div class="col-3" *ngFor="let ubicacion of this.Filtros.ubicaciones">
                                 <div class="form-check">
-                                    <input class="form-check-input" id="check{{local}}" type="checkbox" [checked]="CheckBoxLocales"
-                                        (change)="onCheckboxChangeLocales($event, local)">
-                                    <label class="form-check-label" for="check{{local}}">{{ this.core.FormatearNombrePropio(local) }}</label>
+                                    <input class="form-check-input" id="check{{ubicacion.codigo}}" type="checkbox" [checked]="CheckBoxLocales"
+                                        (change)="onCheckboxChangeLocales($event, ubicacion.codigo)">
+                                    <label class="form-check-label" for="check{{ubicacion.codigo}}">{{ this.core.FormatearNombrePropio(ubicacion.local_tienda) }}</label>
                                 </div>
                             </div>
                         </div>

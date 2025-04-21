@@ -90,7 +90,7 @@
                         <td aria-label="N°" class="sticky-1">{{ i+1 }}</td>
                         <td aria-label="sku" class="sticky-2">{{ venta.sku }}</td>
                         <td aria-label="Descripción" class="sticky-3">{{ venta.nombre }}</td>
-                        <td aria-label="Estado" class="sticky-4">{{ venta.estado.toUpperCase() }}</td>
+                        <td aria-label="Estado" class="sticky-4">{{ this.CORE.ConvertirMayuscula(venta.estado) }}</td>
                         <td aria-label="Cadena" class="sticky-5">{{ this.CORE.Tienda_Actual }}</td>
                         <td aria-label="Medida" class="sticky-6">{{ this.CORE.tipo_dato }}</td>
                         <td aria-label="Precio" *ngIf="this.CORE.tipo_dato == 'Soles'" class="sticky-7">S/. {{ venta.precio }}</td>
