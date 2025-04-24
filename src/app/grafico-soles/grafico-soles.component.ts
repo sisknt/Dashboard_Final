@@ -153,7 +153,7 @@ export class GraficoSolesComponent implements OnInit {
       },
       makers: {
         onClick: function (e) {
-          console.log("logg")
+          //console.log("logg")
         }
       }
     };
@@ -416,16 +416,16 @@ export class GraficoSolesComponent implements OnInit {
   async obtenerYears() {
     try {
       this.FiltroYears = await this.api.Fetch_ObtenerYears(this.core.Empresa_Actual)
-      console.log('obteneniendo semanas')
+      //console.log('obteneniendo semanas')
       this.core.Year_Actual = this.FiltroYears[this.FiltroYears.length - 1]
       await this.api.ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, 'TODAS_TIENDAS').subscribe(
         (response: any) => {
-          console.log(response)
+          //console.log(response)
           this.FiltroSemanas = response["semanas"]
         }
       );
       this.FiltroYears.reverse()
-      console.log(this.core.Year_Actual)
+      //console.log(this.core.Year_Actual)
     } catch (error) {
       console.error(error)
     }
@@ -447,9 +447,9 @@ export class GraficoSolesComponent implements OnInit {
     });
     this.totales_ejes.cantidad = []
     this.totales_ejes.soles = []
-    console.log("iniciar_grafico_totales")
-    console.log(this.totales_ejes.cantidad)
-    console.log(this.totales_ejes.soles)
+    //console.log("iniciar_grafico_totales")
+    //console.log(this.totales_ejes.cantidad)
+    //console.log(this.totales_ejes.soles)
     this.categorias.forEach((categoria: string, index: number) => {
       var eje: eje = {
         x: categoria,
@@ -495,7 +495,7 @@ export class GraficoSolesComponent implements OnInit {
   async GenerarPeticionApi() {
     this.chartOptions.series = [];
     this.VerificarParametros();
-    console.log(this.core.semana_inicial, this.core.semana_final)
+    //console.log(this.core.semana_inicial, this.core.semana_final)
     if (this.core.semana_inicial <= this.core.semana_final) {
       var data = await this.api.Fetch_ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, this.core.semana_inicial, this.core.semana_final, this.ParametroLocal)
       this.totales_semana = data
@@ -563,7 +563,7 @@ export class GraficoSolesComponent implements OnInit {
   }
   UpdateQuaterSerie(quarter: quarter) {
     this.totales_quarter.push(quarter)
-    console.log(this.totales_quarter)
+    //console.log(this.totales_quarter)
 
     this.chartQuarterOptions.series = this.totales_quarter
     setTimeout(() => {
@@ -590,10 +590,10 @@ export class GraficoSolesComponent implements OnInit {
         })
       })
     });
-    console.log("aplicarSumatoriaCategorizado");
-    console.log(this.totales_ejes.cantidad === this.totales_ejes.soles)
-    console.log(this.totales_ejes.cantidad)
-    console.log(this.totales_ejes.soles)
+    //console.log("aplicarSumatoriaCategorizado");
+    //console.log(this.totales_ejes.cantidad === this.totales_ejes.soles)
+    //console.log(this.totales_ejes.cantidad)
+    //console.log(this.totales_ejes.soles)
     this.UpdateSeries();
   }
   async onSelectChangeYears(event: Event) {

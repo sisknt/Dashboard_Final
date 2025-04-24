@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
     this.api.IniciarSesion(usuario).subscribe(
       (data: any) => {
         var respuesta = data["result"]
-        console.log(respuesta)
+        //console.log(respuesta)
         const swallWithBootstrapButtons = this.Swal.mixin({
           customClass: {
             confirmButton: "btn btn-success",

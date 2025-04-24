@@ -25,7 +25,7 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
   }
 
   escribir(valor :string){
-    console.log(valor)
+    //console.log(valor)
   }
   Filtros: FiltroJson = {
     cadenas: [],
@@ -113,7 +113,7 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
     var newMesI: string = this.core.ConvertirMesTexto2(numMesI);
     var newMesF: string = this.core.ConvertirMesTexto2(numMesF);
     this.api.ObtenerComparativoMensualYear(this.core.Empresa_Actual, this.core.Year_Actual, newMesI, newMesF, this.ParametroLocal).subscribe((respuesta: any) => {
-      console.log(MesI, MesF);
+      //console.log(MesI, MesF);
       this.ComparativoVentas = respuesta["ventas"];
       this.construirMesesPeriodos(this.ComparativoVentas);
       this.contruirComparativo(this.ComparativoVentas);
@@ -255,7 +255,7 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
       this.ParametroCategoria += `${url}+`
     })
     this.ParametroCategoria = this.ParametroCategoria.slice(0, -1);
-    console.log(this.ParametroCategoria)
+    //console.log(this.ParametroCategoria)
     this.VerificarEstadoBtnGenerar();
   }
   onCheckboxChangeLocales(event: any, local: string) {
@@ -307,7 +307,7 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
       this.ParametroZona += `${url}+`;
     });
     this.ParametroZona = this.ParametroZona.slice(0, -1);
-    console.log(this.ParametroZona);
+    //console.log(this.ParametroZona);
     this.VerificarEstadoBtnGenerar();
   }
   LimpiarParametroProductos(){
@@ -326,13 +326,13 @@ export class TablaComparativaMesYearComponent implements OnInit, AfterViewInit {
     const selectedYear = yearMonthParts[0];
     const selectedMonth = yearMonthParts[1].padStart(2, '0'); // Asegura dos dígitos para el mes
     this.MesI = selectedMonth;
-    console.log(this.MesI);
+    //console.log(this.MesI);
   }
   
   onSelectChangeSemanaFinal(event: Event) {
     let selectedValue: string = (event.target as HTMLInputElement).value;
     this.MesF = selectedValue.split('-')[1];
-    console.log(this.MesF);
+    //console.log(this.MesF);
   }
   VerificarEstadoBtnRestablecerProducto(){
     /* const BtnRestablecerProducto = document.getElementById('BtnRestablecerProducto') as HTMLButtonElement;

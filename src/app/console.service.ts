@@ -8,7 +8,7 @@ export class ConsoleService {
   constructor() { }
 
   grafico_total_datos(P_n_periodo_datos_yaxis: number[], P_n_periodo_datos_xaxis: string[]) {
-    console.log("Servicio console ejecutandose");
+    //console.log("Servicio console ejecutandose");
     var options = {
       series: [
         {

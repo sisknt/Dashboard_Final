@@ -43,7 +43,7 @@ export class TableResumenComponent implements OnInit {
     this.ngOnInit()
   }
   imprimir() {
-    console.log('prueba');
+    //console.log('prueba');
   }
   toggleSpinner_resumen() {
     var spinner = document.getElementById('spinner_carga_tabla_resumen') as HTMLDivElement;
@@ -185,7 +185,7 @@ export class TableResumenComponent implements OnInit {
             this.CORE.semana_inicial_primera_carga_resumen = this.CORE.DT_Semanas.length - 8;
             this.CORE.semana_final_primera_carga_resumen = this.CORE.DT_Semanas.length;
             this.CORE.primeraCargaResumen = 'Descargado';
-            console.log(this.CORE.primeraCargaResumen, this.CORE.semana_inicial_primera_carga_resumen, this.CORE.semana_final_primera_carga_resumen)
+            //console.log(this.CORE.primeraCargaResumen, this.CORE.semana_inicial_primera_carga_resumen, this.CORE.semana_final_primera_carga_resumen)
             this.API.ObtenerVentasResumenLimitado(this.year_actual, this.CORE.Empresa_Actual, this.CORE.Tienda_Actual, this.CORE.Categoria_actual, this.CORE.semana_inicial_primera_carga_resumen, this.CORE.semana_final_primera_carga_resumen, this.CORE.locales_url).subscribe(
               (data: any) => {
                 this.DT_Semanas = [];

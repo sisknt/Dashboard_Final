@@ -282,7 +282,7 @@ export class VistaGeneralComponent implements OnInit {
   ObtenerRangoSemanas(year: string, empresa: string, tienda: string) {
     this.api.ObtenerSemanas(year, empresa, tienda).subscribe(
       (data: any) => {
-        console.log(data);
+        //console.log(data);
         var semanas: string[] = (data["semanas"] as string[]);
         var fecha_inicial: string = semanas[0].split(' al ')[0].split('(')[1];
         var fecha_final: string = semanas[semanas.length - 1].split(' al ')[1].split(')')[0];
@@ -423,6 +423,6 @@ export class VistaGeneralComponent implements OnInit {
         this.semanaMayor = item.cantidad_semanas;
       }
     });
-    console.log(this.rango_semanas_empresa_tienda)
+    //console.log(this.rango_semanas_empresa_tienda)
   }
 }

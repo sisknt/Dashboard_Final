@@ -252,7 +252,7 @@ export class StatsProductoComponent implements OnInit {
   // Tabla y grafico: Comparación de ventas con otros productos similares.
   VerificarParametros() {
     if (this.ParametroProducto === '') {
-      console.log(this.core.Empresa_Actual)
+      //console.log(this.core.Empresa_Actual)
       if (this.core.Empresa_Actual === 'KANTU') {
         this.ParametroProducto = '1997564';
       } else {
@@ -272,7 +272,7 @@ export class StatsProductoComponent implements OnInit {
     this.api.ObtenerSemanas(this.core.Year_Actual, this.core.Empresa_Actual, 'TODAS_TIENDAS').subscribe(
       (response: any) => {
         this.FiltroSemanas = response["semanas"]
-        console.log(this.FiltroSemanas)
+        //console.log(this.FiltroSemanas)
       }
     );
   }

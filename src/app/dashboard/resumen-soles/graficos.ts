@@ -8,7 +8,7 @@ export class grafics {
 
     }
     sparkline_resumen_categoria(P_periodo: number[]) {
-        console.log(P_periodo)
+        //console.log(P_periodo)
         var altura: number = 0;
         if (P_periodo.length == 3) {
             altura = 130;

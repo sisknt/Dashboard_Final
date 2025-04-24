@@ -98,7 +98,7 @@ export class ConsoleComponent implements OnInit {
       data: puntosLineaTendencia,
       type: 'line'
     }]
-    console.log(puntosLineaTendencia)
+    //console.log(puntosLineaTendencia)
     this.chartOptions.series = serie;
   }
   agregarTendenciaLogaritmica() {
@@ -112,7 +112,7 @@ export class ConsoleComponent implements OnInit {
       data: puntosLineaTendencia,
       type: 'line'
     }]
-    console.log(puntosLineaTendencia)
+    //console.log(puntosLineaTendencia)
     this.chartOptions.series = serie;
   }
   public chartOptions: ChartOptions = {

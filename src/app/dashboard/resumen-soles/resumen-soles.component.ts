@@ -105,7 +105,7 @@ export class ResumenSolesComponent implements OnInit {
       var lineas_sku = linea.getElementsByTagName('td');
       this.sku_seleccionados.push(lineas_sku[1].innerHTML);
     });
-    console.log(this.sku_seleccionados);
+    //console.log(this.sku_seleccionados);
     // this.sku_seleccionados = this.sku_seleccionados.substring(0, this.sku_seleccionados.length - 1);
     // console.log(this.sku_seleccionados);
     // this.core.busqueda_actual = this.sku_seleccionados;
@@ -132,7 +132,7 @@ export class ResumenSolesComponent implements OnInit {
     this.core.Categoria_actual = categoria;
     this.core.botonActivoDecor = categoria;
     this.core.botonActivoKantu = categoria;
-    console.log("Esta categoria: " + this.core.Categoria_actual)
+    //console.log("Esta categoria: " + this.core.Categoria_actual)
     tabla.ngOnInit();
   }
 
@@ -211,7 +211,7 @@ export class ResumenSolesComponent implements OnInit {
     });
     seleccion_categorias = seleccion_categorias.substring(0, seleccion_categorias.length - 1);
     this.core.Categoria_actual = seleccion_categorias;
-    console.log("Esta categoria 2: " + this.core.Categoria_actual)
+    //console.log("Esta categoria 2: " + this.core.Categoria_actual)
   }
   AplicarFiltro() {
     var TxbBuscar = document.getElementById('TxbBuscar') as HTMLInputElement;

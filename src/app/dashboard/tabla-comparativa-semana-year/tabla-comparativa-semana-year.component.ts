@@ -27,7 +27,7 @@ export class TablaComparativaSemanaYearComponent implements OnInit, AfterViewIni
   SemF = 0;
   async CargarDatos() {
     this.VerificarParametros();
-    console.log(this.ParametroCadena)
+    //console.log(this.ParametroCadena)
     if (this.core.semana_inicial !== 0 && this.core.semana_final !== 0) {
       this.ObtenerAPI(this.core.semana_inicial, this.core.semana_final)
     } else {
@@ -265,7 +265,7 @@ export class TablaComparativaSemanaYearComponent implements OnInit, AfterViewIni
       this.ParametroCategoria += `${url}+`;
     });
     this.ParametroCategoria = this.ParametroCategoria.slice(0, -1);
-    console.log(this.ParametroCategoria)
+    //console.log(this.ParametroCategoria)
     this.VerificarEstadoBtnGenerar();
   }
   async onProductosRetornados(productosSeleccionados: string[]) {
@@ -275,9 +275,9 @@ export class TablaComparativaSemanaYearComponent implements OnInit, AfterViewIni
       texto += `${url}+`
     })
     this.ParametroProducto = texto.slice(0, -1);
-    console.log(this.ParametroProducto)
+    //console.log(this.ParametroProducto)
     await this.CargarDatos();
-    console.log("Productos recibidos:", productosSeleccionados)
+    //console.log("Productos recibidos:", productosSeleccionados)
   }
   VerificarParametros() {
     if (this.ParametroCadena === '') {
